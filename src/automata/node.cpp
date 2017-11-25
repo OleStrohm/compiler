@@ -8,5 +8,5 @@
 Node::Node(const std::string& id)
 		: id(id) {}
 
-Link::Link(const char& condition, Node* next)
+Link::Link(const std::string& condition, Node* next)
 		: condition(condition), next(next) {}

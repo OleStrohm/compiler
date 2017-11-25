@@ -16,8 +16,8 @@ public:
 };
 
 struct Link {
-	const char condition;
+	const std::string condition;
 	Node* next;
 
-	Link(const char& condition, Node* next);
+	Link(const std::string& condition, Node* next);
 };

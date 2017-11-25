@@ -7,6 +7,8 @@
 #include <vector>
 #include <unordered_map>
 
+#define EPSILON ""
+
 class Automata {
 private:
 	std::vector<Node*> endStates;
@@ -16,16 +18,18 @@ private:
 public:
 	void addStartState(Node *node);
 	void addEndState(Node* node);
-	bool feed(const char& value);
-	std::vector<Node*> getNext(char condition, Node* current);
+	bool feed(const std::string& value);
+	void doEpsilonMoves();
+	std::vector<Node*> getNext(const std::string& condition, Node* current);
 
-	void link(char condition, Node* from, Node* to);
-	void link(char condition, Node* entrance, Node* exit, Automata* automata);
+	void link(const std::string&condition, Node* from, Node* to);
+	void link(const std::string& inCondition, const std::string& outCondition, Node* entrance, Node* exit, Automata* automata);
 
 	void reset();
 
 	bool inEndState();
 	void print();
+	void printLinks();
 };
 
 
