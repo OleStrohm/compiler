@@ -3,5 +3,5 @@ project(FiniteAutomata)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(SOURCE_FILES src/main.cpp src/node.cpp src/node.h src/automata.cpp src/automata.h)
+set(SOURCE_FILES src/main.cpp src/automata/node.cpp src/automata/node.h src/automata/automata.cpp src/automata/automata.h)
 add_executable(FiniteAutomata ${SOURCE_FILES})

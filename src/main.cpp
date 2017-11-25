@@ -1,5 +1,5 @@
 #include <iostream>
-#include "automata.h"
+#include "automata/automata.h"
 
 int main() {
 	Node s("0");
