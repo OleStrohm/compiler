@@ -10,9 +10,11 @@
 
 #define LOG(x) std::cout << x << std::endl;
 
-void createAutomaton(const std::vector<std::string>& lines, const std::string& name);
+Automata createAutomaton(const std::vector<std::string>& lines, const std::string& name);
 std::string trim(const std::string& s);
 std::string shortenWhitespace(const std::string& s);
+std::string reformatText(const std::string& s);
+bool startsWith(const std::string& s, const std::string& test);
 
 Regex::Regex(const std::string& path) {
 	std::ifstream file(path);
@@ -31,7 +33,7 @@ Regex::Regex(const std::string& path) {
 	createAutomaton(lines, shortenWhitespace(trim(lines[1])));
 }
 
-void createAutomaton(const std::vector<std::string>& lines, const std::string& name) { // Todo: Add checks to see if it's inside parentheses
+Automata createAutomaton(const std::vector<std::string>& lines, const std::string& name) {
 	LOG("Parsing: \"" << name << "\"");
 	int openParentheses = 0;
 	bool inText = false;
@@ -53,9 +55,11 @@ void createAutomaton(const std::vector<std::string>& lines, const std::string& n
 		}
 	}
 	if(orPos != std::string::npos) { // Todo: Do you want this or that?
-		createAutomaton(lines, trim(name.substr(0, orPos)));
-		createAutomaton(lines, trim(name.substr(orPos + 1)));
-		return;
+		Automata left = createAutomaton(lines, trim(name.substr(0, orPos)));
+		Automata right = createAutomaton(lines, trim(name.substr(orPos + 1)));
+		Automata concatenatedAutomaton;
+		concatenatedAutomaton.link(EPSILON, &left, &right);
+		return concatenatedAutomaton;
 	}
 	
 	auto concatenatePos = std::string::npos;
@@ -76,6 +80,7 @@ void createAutomaton(const std::vector<std::string>& lines, const std::string& n
 	if (concatenatePos != std::string::npos) { // Todo: concatenate everything
 		createAutomaton(lines, trim(name.substr(0, concatenatePos)));
 		createAutomaton(lines, trim(name.substr(concatenatePos + 1)));
+		concatenatedAutomata;
 		return;
 	}
 	
@@ -174,9 +179,24 @@ void createAutomaton(const std::vector<std::string>& lines, const std::string& n
 	}
 	
 	if (name.at(0) == '.') { // todo: create text Automaton.
-		LOG("\tI want to find the text: \"" << name.substr(1) << "\"");
+		LOG("\tI want to find the text: \"" << reformatText(name.substr(1)) << "\"");
+		return;
 	} else { // todo: parse new regex
 		LOG("\tI'm gonna be replaced by the Automata called: \"" << name << "\"");
+		int index = 1;
+		for(const std::string& line : lines) {
+			if(trim(line)[line.length()-1] == ':') {
+				if(startsWith(line, name))
+					break;
+			}
+			index++;
+		}
+		if(index >= lines.size()) {
+			std::cerr << "Couldn't find regex: \"" << name << "\"" << std::endl;
+			return;
+		}
+		createAutomaton(lines, shortenWhitespace(trim(lines[index])));
+		return;
 	}
 }
 
@@ -218,9 +238,43 @@ std::string shortenWhitespace(const std::string& s) {
 	return res;
 }
 
+std::string reformatText(const std::string& s) {
+	std::string result = s;
+	unsigned long long int replacePos = result.find("\\s");
+	while(replacePos != std::string::npos) {
+		result = result.replace(replacePos, 2, " ");
+		replacePos = result.find("\\s", replacePos);
+	}
+	
+	replacePos = result.find("\\n");
+	while(replacePos != std::string::npos) {
+		result = result.replace(replacePos, 2, "\n");
+		replacePos = result.find("\\n", replacePos);
+	}
+	
+	replacePos = result.find("\\t");
+	while(replacePos != std::string::npos) {
+		result = result.replace(replacePos, 2, "\t");
+		replacePos = result.find("\\t", replacePos);
+	}
+	
+	replacePos = result.find("\\\\");
+	while(replacePos != std::string::npos) {
+		result = result.replace(replacePos, 2, "\\");
+		replacePos = result.find("\\\\", replacePos);
+	}
+	return result;
+}
 
-
-
+bool startsWith(const std::string& s, const std::string& test) {
+	if(test.length() > s.length())
+		return false;
+	for(int i = 0; i < test.length(); i++) {
+		if(s[i] != test[i])
+			return false;
+	}
+	return true;
+}
 
 
 

@@ -14,20 +14,20 @@ void Automata::addEndState(Node* node) {
 }
 
 bool Automata::feed(const std::string& value) {
-	if(value.length() <= 0)
+	if (value.length() <= 0)
 		return false;
 	std::vector<Node*> newStates;
 	for (Node* node : curStates) {
 		std::vector<Node*> nextStates = getNext(value, node);
 		for (Node* newNode : nextStates) {
 			bool nodeExists = false;
-			for(Node* existingNode : newStates) {
-				if(newNode == existingNode) {
+			for (Node* existingNode : newStates) {
+				if (newNode == existingNode) {
 					nodeExists = true;
 					break;
 				}
 			}
-			if(!nodeExists)
+			if (!nodeExists)
 				newStates.push_back(newNode);
 		}
 	}
@@ -46,22 +46,22 @@ bool Automata::feed(const std::string& value) {
 
 void Automata::doEpsilonMoves() {
 	unsigned long long int curSize = curStates.size();
-
+	
 	for (Node* node : curStates) {
 		std::vector<Node*> nextStates = getNext(EPSILON, node);
 		for (Node* newNode : nextStates) {
 			bool nodeExists = false;
-			for(Node* existingNode : curStates) {
-				if(newNode == existingNode) {
+			for (Node* existingNode : curStates) {
+				if (newNode == existingNode) {
 					nodeExists = true;
 					break;
 				}
 			}
-			if(!nodeExists)
+			if (!nodeExists)
 				curStates.push_back(newNode);
 		}
 	}
-	if(curStates.size() != curSize) {
+	if (curStates.size() != curSize) {
 		doEpsilonMoves();
 	}
 }
@@ -86,6 +86,32 @@ void Automata::link(const std::string& condition, Node* from, Node* to) {
 	} else {
 		links.insert(std::pair<Node*, std::vector<Link>>(from, std::vector<Link>()));
 		link(condition, from, to);
+	}
+}
+
+void Automata::link(const std::string& condition, Automata* from, Automata* to) {
+	for (auto link : from->links) {
+		links.insert(link);
+	}
+	for (auto link : to->links) {
+		links.insert(link);
+	}
+	for (Node* end : from->endStates) {
+		for (Node* start : to->startStates) {
+			link(condition, end, start);
+		}
+	}
+}
+
+void Automata::link(const std::string& condition, Automata* from, Node* to) {
+	for (auto link : from->links) {
+		links.insert(link);
+	}
+}
+
+void Automata::link(const std::string& condition, Node* from, Automata* to) {
+	for (auto link : to->links) {
+		links.insert(link);
 	}
 }
 
@@ -120,7 +146,7 @@ bool Automata::inEndState() {
 void Automata::print() {
 	for (Node* node : curStates)
 		std::cout << "In node: \"" << node->id << "\"" << std::endl;
-
+	
 	if (inEndState()) {
 		std::cout << "Valid end state!" << std::endl;
 	} else {
@@ -129,8 +155,8 @@ void Automata::print() {
 }
 
 void Automata::printLinks() {
-	for(auto link : links) {
-		for(Link target : link.second)
+	for (auto link : links) {
+		for (Link target : link.second)
 			std::cout << link.first->id << " -> (" << target.condition << ") -> " << target.next->id << std::endl;
 	}
 }

@@ -22,7 +22,10 @@ public:
 	void doEpsilonMoves();
 	std::vector<Node*> getNext(const std::string& condition, Node* current);
 
-	void link(const std::string&condition, Node* from, Node* to);
+	void link(const std::string& condition, Node* from, Node* to);
+	void link(const std::string& condition, Automata* from, Automata* to);
+	void link(const std::string& condition, Automata* from, Node* to);
+	void link(const std::string& condition, Node* from, Automata* to);
 	void link(const std::string& inCondition, const std::string& outCondition, Node* entrance, Node* exit, Automata* automata);
 
 	void reset();

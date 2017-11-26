@@ -1,2 +1,6 @@
 operator>
 	." (letter & number)* ."
+letter:
+	.a | .b
+number:
+	.0 | .1

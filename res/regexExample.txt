@@ -66,6 +66,9 @@ number:
 escapeCharacter:
 	.\ (.0 & .n & .t & ." & .\)
 
+whitespace:
+
+
 int:
 	.int
 
