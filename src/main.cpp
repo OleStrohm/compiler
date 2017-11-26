@@ -35,7 +35,7 @@ int main() {
 //	std::cout << std::endl;
 //	au.printLinks();
 	
-	Regex reg("regexExample.txt");
+	Regex reg("testreg.txt");
 	
 	return 0;
 }

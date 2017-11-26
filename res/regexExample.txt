@@ -25,9 +25,6 @@ letter:
 	.x
 	.y
 	.z
-	.æ
-	.ø
-	.å
 	.A
 	.B
 	.C
@@ -53,9 +50,6 @@ letter:
 	.X
 	.Y
 	.Z
-	.Æ
-	.Ø
-	.Å
 
 number:
 	.0
@@ -78,11 +72,14 @@ int:
 for:
 	.for
 
+operator>
+	.+ & .- & .
+
 keyword>
 	int & for
 
 identifier>
-	letter (letter & number)*
+	letter (letter & number & escapeCharacter)*
 
 literals>
 	." (letter & number)* ."
