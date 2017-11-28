@@ -1,2 +1,2 @@
-operator>
-	.a | .b
+literals>
+	'"' (letter & number)* '"'

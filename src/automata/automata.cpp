@@ -5,16 +5,15 @@
 #include <iostream>
 #include "automata.h"
 
-Automata Automata::nullAutomata("null");
+Automaton Automaton::nullAutomaton("null");
 
-Automata::Automata(const std::string& id)
+Automaton::Automaton(const std::string& id)
 		: id(id) {}
 
-Automata::Automata(const Automata& original)
+Automaton::Automaton(const Automaton& original)
 		: id(original.id) {}
 
-Automata::Automata(Automata&& original)
-		: id(original.id) {
+Automaton::Automaton(Automaton&& original) noexcept {
 	std::swap(id, original.id);
 	std::swap(nodes, original.nodes);
 	std::swap(links, original.links);
@@ -22,22 +21,17 @@ Automata::Automata(Automata&& original)
 	std::swap(endStates, original.endStates);
 }
 
-Automata::~Automata() {
-	//std::cout << "Deleted Automata: " << id << std::endl;
-	//printLinks();
-	std::cout << std::endl;
-	
-	for (Node* node : nodes) {
+Automaton::~Automaton() {
+	for (Node* node : nodes)
 		delete node;
-	}
 }
 
-Automata& Automata::operator=(const Automata& original) {
+Automaton& Automaton::operator=(const Automaton& original) {
 	this->id = original.id;
 	return *this;
 }
 
-Automata& Automata::operator =(Automata&& original) {
+Automaton& Automaton::operator =(Automaton&& original) noexcept {
 	std::swap(id, original.id);
 	std::swap(nodes, original.nodes);
 	std::swap(links, original.links);
@@ -46,16 +40,16 @@ Automata& Automata::operator =(Automata&& original) {
 	return *this;
 }
 
-void Automata::addStartState(Node* node) {
+void Automaton::addStartState(Node* node) {
 	startStates.push_back(node);
 }
 
-void Automata::addEndState(Node* node) {
+void Automaton::addEndState(Node* node) {
 	endStates.push_back(node);
 }
 
-bool Automata::feed(const std::string& value) {
-	if (value.length() <= 0)
+bool Automaton::feed(const std::string& value) {
+	if(failed || value.empty())
 		return false;
 	std::vector<Node*> newStates;
 	for (Node* node : curStates) {
@@ -72,20 +66,17 @@ bool Automata::feed(const std::string& value) {
 				newStates.push_back(newNode);
 		}
 	}
-	if (newStates.empty())
+	if (newStates.empty()) {
+		failed = true;
 		return false;
+	}
 	curStates = newStates;
 	doEpsilonMoves();
-	
-	std::cout << "Going to:" << std::endl;
-	for (Node* node : curStates)
-		std::cout << "In node: \"" << node->id << "\"" << std::endl;
-	std::cout << std::endl;
 	
 	return true;
 }
 
-void Automata::doEpsilonMoves() {
+void Automaton::doEpsilonMoves() {
 	unsigned long long int curSize = curStates.size();
 	
 	for (Node* node : curStates) {
@@ -107,7 +98,7 @@ void Automata::doEpsilonMoves() {
 	}
 }
 
-std::vector<Node*> Automata::getNext(const std::string& condition, Node* current) {
+std::vector<Node*> Automaton::getNext(const std::string& condition, Node* current) {
 	std::vector<Node*> nextNodes;
 	auto it = links.find(current);
 	if (it != links.end()) {
@@ -120,13 +111,13 @@ std::vector<Node*> Automata::getNext(const std::string& condition, Node* current
 	return nextNodes;
 }
 
-Node* Automata::createNode(const std::string& id) {
+Node* Automaton::createNode(const std::string& id) {
 	auto node = new Node(id);
 	nodes.push_back(node);
 	return node;
 }
 
-void Automata::link(const std::string& condition, Node* from, Node* to) {
+void Automaton::link(const std::string& condition, Node* from, Node* to) {
 	auto it = links.find(from);
 	if (it != links.end()) {
 		it->second.emplace_back(Link(condition, to));
@@ -136,7 +127,7 @@ void Automata::link(const std::string& condition, Node* from, Node* to) {
 	}
 }
 
-void Automata::link(const std::string& condition, Automata* from, Automata* to) {
+void Automaton::link(const std::string& condition, Automaton* from, Automaton* to) {
 	while (!from->nodes.empty()) {
 		nodes.push_back(from->nodes[from->nodes.size() - 1]);
 		from->nodes.pop_back();
@@ -158,7 +149,7 @@ void Automata::link(const std::string& condition, Automata* from, Automata* to) 
 	}
 }
 
-void Automata::link(const std::string& condition, Automata* from, Node* to) {
+void Automaton::link(const std::string& condition, Automaton* from, Node* to) {
 	while (!from->nodes.empty()) {
 		nodes.push_back(from->nodes[from->nodes.size() - 1]);
 		from->nodes.pop_back();
@@ -171,7 +162,7 @@ void Automata::link(const std::string& condition, Automata* from, Node* to) {
 	}
 }
 
-void Automata::link(const std::string& condition, Node* from, Automata* to) {
+void Automaton::link(const std::string& condition, Node* from, Automaton* to) {
 	while (!to->nodes.empty()) {
 		nodes.push_back(to->nodes[to->nodes.size() - 1]);
 		to->nodes.pop_back();
@@ -184,7 +175,7 @@ void Automata::link(const std::string& condition, Node* from, Automata* to) {
 	}
 }
 
-void Automata::link(const std::string& inCondition, const std::string& outCondition, Node* entrance, Node* exit, Automata* automata) {
+void Automaton::link(const std::string& inCondition, const std::string& outCondition, Node* entrance, Node* exit, Automaton* automata) {
 	for (auto link : automata->links) {
 		links.insert(link);
 	}
@@ -196,14 +187,17 @@ void Automata::link(const std::string& inCondition, const std::string& outCondit
 	}
 }
 
-void Automata::reset() {
+void Automaton::reset() {
+	failed = false;
 	curStates = std::vector<Node*>();
 	curStates.reserve(startStates.size());
 	for (Node* n : startStates)
 		curStates.push_back(n);
+	
+	doEpsilonMoves();
 }
 
-bool Automata::inEndState() {
+bool Automaton::inEndState() {
 	for (Node* node : curStates)
 		for (Node* endState : endStates)
 			if (node == endState)
@@ -212,7 +206,11 @@ bool Automata::inEndState() {
 	return false;
 }
 
-void Automata::print() {
+bool Automaton::hasFailed() {
+	return failed;
+}
+
+void Automaton::print() {
 	for (Node* node : curStates)
 		std::cout << "In node: \"" << node->id << "\"" << std::endl;
 	
@@ -223,7 +221,7 @@ void Automata::print() {
 	}
 }
 
-void Automata::printLinks() {
+void Automaton::printLinks() {
 	for (auto link : links) {
 		for (Link target : link.second)
 			std::cout << link.first->id << " -> (" << target.condition << ") -> " << target.next->id << std::endl;

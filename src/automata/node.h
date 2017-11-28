@@ -20,5 +20,4 @@ struct Link {
 	Node* next;
 
 	Link(const std::string& condition, Node* next);
-	~Link();
 };

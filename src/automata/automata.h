@@ -9,23 +9,25 @@
 
 #define EPSILON ""
 
-class Automata {
+class Automaton {
 private:
+	std::vector<Node*> nodes;
+	std::unordered_map<Node*, std::vector<Link>> links;
 	std::vector<Node*> endStates;
 	std::vector<Node*> startStates;
 	std::vector<Node*> curStates;
-	std::unordered_map<Node*, std::vector<Link>> links;
-	std::vector<Node*> nodes;
+	
+	bool failed = true;
 public:
 	std::string id;
 	
-	Automata(const std::string& id);
-	Automata(const Automata& original);
-	Automata(Automata&& original);
-	~Automata();
+	explicit Automaton(const std::string& id);
+	Automaton(const Automaton& original);
+	Automaton(Automaton&& original) noexcept;
+	~Automaton();
 	
-	Automata& operator =(const Automata& original);
-	Automata& operator =(Automata&& original);
+	Automaton& operator =(const Automaton& original);
+	Automaton& operator =(Automaton&& original) noexcept;
 
 	void addStartState(Node *node);
 	void addEndState(Node* node);
@@ -36,18 +38,19 @@ public:
 	Node* createNode(const std::string& id);
 
 	void link(const std::string& condition, Node* from, Node* to);
-	void link(const std::string& condition, Automata* from, Automata* to);
-	void link(const std::string& condition, Automata* from, Node* to);
-	void link(const std::string& condition, Node* from, Automata* to);
-	void link(const std::string& inCondition, const std::string& outCondition, Node* entrance, Node* exit, Automata* automata);
+	void link(const std::string& condition, Automaton* from, Automaton* to);
+	void link(const std::string& condition, Automaton* from, Node* to);
+	void link(const std::string& condition, Node* from, Automaton* to);
+	void link(const std::string& inCondition, const std::string& outCondition, Node* entrance, Node* exit, Automaton* automata);
 
 	void reset();
 
 	bool inEndState();
+	bool hasFailed();
 	void print();
 	void printLinks();
 
-	static Automata nullAutomata;
+	static Automaton nullAutomaton;
 };
 
 

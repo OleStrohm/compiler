@@ -6,7 +6,7 @@ int main() {
 //	Node s("0");
 //	Node n2("1");
 //	Node n3("2");
-//	Automata a;
+//	Automaton a;
 //	a.addStartState(&s);
 //	a.addEndState(&s);
 //	a.link("0", &s, &s);
@@ -18,7 +18,7 @@ int main() {
 //
 //	Node l0("cool");
 //	Node l1("middle");
-//	Automata au;
+//	Automaton au;
 //	au.addStartState(&l0);
 //	au.reset();
 //	au.addEndState(&l0);
@@ -35,7 +35,7 @@ int main() {
 //	std::cout << std::endl;
 //	au.printLinks();
 	
-	Regex reg("testreg.txt");
+	Regex reg("regexExample.txt");
 	
 	return 0;
 }

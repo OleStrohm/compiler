@@ -1,84 +1,79 @@
 letter:
-	.a
-	.b
-	.c
-	.d
-	.e
-	.f
-	.g
-	.h
-	.i
-	.j
-	.k
-	.l
-	.m
-	.n
-	.o
-	.p
-	.q
-	.r
-	.s
-	.t
-	.u
-	.v
-	.w
-	.x
-	.y
-	.z
-	.A
-	.B
-	.C
-	.D
-	.E
-	.F
-	.G
-	.H
-	.I
-	.J
-	.K
-	.L
-	.M
-	.O
-	.P
-	.Q
-	.R
-	.S
-	.T
-	.U
-	.V
-	.W
-	.X
-	.Y
-	.Z
+	'a'
+	'b'
+	'c'
+	'd'
+	'e'
+	'f'
+	'g'
+	'h'
+	'i'
+	'j'
+	'k'
+	'l'
+	'm'
+	'n'
+	'o'
+	'p'
+	'q'
+	'r'
+	's'
+	't'
+	'u'
+	'v'
+	'w'
+	'x'
+	'y'
+	'z'
+	'A'
+	'B'
+	'C'
+	'D'
+	'E'
+	'F'
+	'G'
+	'H'
+	'I'
+	'J'
+	'K'
+	'L'
+	'M'
+	'O'
+	'P'
+	'Q'
+	'R'
+	'S'
+	'T'
+	'U'
+	'V'
+	'W'
+	'X'
+	'Y'
+	'Z'
 
 number:
-	.0
-	.1
-	.2
-	.3
-	.4
-	.5
-	.6
-	.7
-	.8
-	.9
+	'0'
+	'1'
+	'2'
+	'3'
+	'4'
+	'5'
+	'6'
+	'7'
+	'8'
+	'9'
 
 escapeCharacter:
-	.\ (.0 & .n & .t & ." & .\)
-
-whitespace>
-    .\t
-    .\s
-    .\n
+	'\' ('0' & 'n' & 't' & '"' & '\')
 
 int:
-	.int
+	'int'
 
 for:
-	.for
+	'for'
 
 operator>
-	.+ & .- & .* & ./
+	'+' & '-' & '*' & '/'
 
 keyword>
 	int & for
@@ -87,8 +82,13 @@ identifier>
 	letter (letter & number & escapeCharacter)*
 
 literals>
-	." (letter & number)* ."
+	'"' (letter & number)* '"'
 
 literaln>
-	(.+ & .-)? number* (.. number*)?
+	('+' & '-')? number* ('.' number*)?
+
+whitespace>
+    '\t'
+    ' '
+    '\n'
 
