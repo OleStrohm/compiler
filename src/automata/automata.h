@@ -23,7 +23,7 @@ public:
 	Automata(Automata& original);
 	~Automata();
 	
-	Automata& operator =(Automata&& original);
+	Automata& operator =(Automata& original);
 
 	void addStartState(Node *node);
 	void addEndState(Node* node);

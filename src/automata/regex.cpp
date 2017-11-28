@@ -10,7 +10,7 @@
 
 #define LOG(x) std::cout << x << std::endl;
 
-Automata& createAutomaton(const std::vector<std::string> &lines, const std::string &name);
+Automata createAutomaton(const std::vector<std::string> &lines, const std::string &name);
 std::string trim(const std::string &s);
 std::string shortenWhitespace(const std::string &s);
 std::string reformatText(const std::string &s);
@@ -41,7 +41,7 @@ Regex::Regex(const std::string &path) {
 	LOG("finished");
 }
 
-Automata& createAutomaton(const std::vector<std::string> &lines, const std::string &name) {
+Automata createAutomaton(const std::vector<std::string> &lines, const std::string &name) {
 	LOG("Parsing: \"" << name << "\"");
 	int openParentheses = 0;
 	bool inText = false;
@@ -139,7 +139,6 @@ Automata& createAutomaton(const std::vector<std::string> &lines, const std::stri
 		Node* start = unionAutomaton.createNode("startUA");
 		Node* end = unionAutomaton.createNode("endOA");
 		Automata child0 = createAutomaton(lines, trim(name.substr(0, unionPos)));
-		LOG("HELLO");
 		Automata child1 = createAutomaton(lines, trim(name.substr(unionPos + 1)));
 
 		unionAutomaton.link(EPSILON, start, &child0);

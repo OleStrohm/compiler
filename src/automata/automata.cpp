@@ -12,6 +12,7 @@ Automata::Automata(const std::string& id)
 
 Automata::Automata(Automata& original)
 		: id(original.id) {
+	std::cout << "copy" << std::endl;
 	while(!original.nodes.empty()) {
 		nodes.push_back(original.nodes[original.nodes.size() - 1]);
 		original.nodes.pop_back();
@@ -36,22 +37,28 @@ Automata::~Automata() {
 	}
 }
 
-Automata& Automata::operator =(Automata&& original) {
-	this->id = original.id;
-	while(!original.nodes.empty()) {
-		nodes.push_back(original.nodes[original.nodes.size() - 1]);
-		original.nodes.pop_back();
-	}
-	
-	for (auto& link : original.links) {
-		links.insert(link);
-	}
-	for (Node* start : original.startStates) {
-		startStates.push_back(start);
-	}
-	for (Node* end : original.endStates) {
-		endStates.push_back(end);
-	}
+Automata& Automata::operator =(Automata& original) {
+	std::cout << "assignment" << std::endl;
+//	this->id = original.id;
+//	while(!original.nodes.empty()) {
+//		nodes.push_back(original.nodes[original.nodes.size() - 1]);
+//		original.nodes.pop_back();
+//	}
+//
+//	for (auto& link : original.links) {
+//		links.insert(link);
+//	}
+//	for (Node* start : original.startStates) {
+//		startStates.push_back(start);
+//	}
+//	for (Node* end : original.endStates) {
+//		endStates.push_back(end);
+//	}
+	std::swap(id, original.id);
+	std::swap(nodes, original.nodes);
+	std::swap(links, original.links);
+	std::swap(id, original.id);
+	std::swap(id, original.id);
 	return *this;
 }
 
