@@ -66,8 +66,10 @@ number:
 escapeCharacter:
 	.\ (.0 & .n & .t & ." & .\)
 
-whitespace:
-
+whitespace>
+    .\t
+    .\s
+    .\n
 
 int:
 	.int
@@ -76,7 +78,7 @@ for:
 	.for
 
 operator>
-	.+ & .- & .
+	.+ & .- & .* & ./
 
 keyword>
 	int & for
@@ -88,5 +90,5 @@ literals>
 	." (letter & number)* ."
 
 literaln>
-	(.+ & .-)? number+
+	(.+ & .-)? number* (.. number*)?
 

@@ -15,12 +15,17 @@ private:
 	std::vector<Node*> startStates;
 	std::vector<Node*> curStates;
 	std::unordered_map<Node*, std::vector<Link>> links;
+	std::vector<Node*> nodes;
 public:
+	~Automata();
+
 	void addStartState(Node *node);
 	void addEndState(Node* node);
 	bool feed(const std::string& value);
 	void doEpsilonMoves();
 	std::vector<Node*> getNext(const std::string& condition, Node* current);
+
+	Node* createNode(const std::string& id);
 
 	void link(const std::string& condition, Node* from, Node* to);
 	void link(const std::string& condition, Automata* from, Automata* to);
@@ -33,6 +38,8 @@ public:
 	bool inEndState();
 	void print();
 	void printLinks();
+
+	static Automata nullAutomata;
 };
 
 
