@@ -20,10 +20,12 @@ public:
 	std::string id;
 	
 	Automata(const std::string& id);
-	Automata(Automata& original);
+	Automata(const Automata& original);
+	Automata(Automata&& original);
 	~Automata();
 	
-	Automata& operator =(Automata& original);
+	Automata& operator =(const Automata& original);
+	Automata& operator =(Automata&& original);
 
 	void addStartState(Node *node);
 	void addEndState(Node* node);

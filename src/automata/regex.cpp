@@ -32,13 +32,23 @@ Regex::Regex(const std::string &path) {
 		}
 	}
 
-//	for (const std::string &line : lines) {
-//		std::cout << line << std::endl;
-//	}
-//	std::cout << std::endl;
-
 	Automata a = createAutomaton(lines, shortenWhitespace(trim(lines[1])));
-	LOG("finished");
+	LOG("");
+	
+	LOG("Final links:")
+	a.printLinks();
+	LOG("--------------------------\n");
+	
+	a.reset();
+	a.feed("a");
+	std::cout << "Worked? " << a.inEndState() << std::endl;
+	a.reset();
+	a.feed("a");
+	a.feed("a");
+	std::cout << "Worked? " << a.inEndState() << std::endl;
+	a.reset();
+	a.feed("b");
+	std::cout << "Worked? " << a.inEndState() << std::endl;
 }
 
 Automata createAutomaton(const std::vector<std::string> &lines, const std::string &name) {
@@ -74,8 +84,9 @@ Automata createAutomaton(const std::vector<std::string> &lines, const std::strin
 		orAutomata.link(EPSILON, &child0, end);
 		orAutomata.link(EPSILON, &child1, end);
 		
-		LOG("or-ing two things");
-
+		orAutomata.addStartState(start);
+		orAutomata.addEndState(end);
+		
 		return orAutomata;
 	}
 
@@ -253,9 +264,9 @@ Automata createAutomaton(const std::vector<std::string> &lines, const std::strin
 		Automata textAutomaton(name);
 		Node* start = textAutomaton.createNode("startTA");
 		Node* lastNode = start;
-		for (char ch : text) {
-			Node* charNode = textAutomaton.createNode("" + ch);
-			textAutomaton.link("" + ch, lastNode, charNode);
+		for (char& ch : text) {
+			Node* charNode = textAutomaton.createNode(std::string(1, ch));
+			textAutomaton.link(std::string(1, ch), lastNode, charNode);
 			lastNode = charNode;
 		}
 		textAutomaton.addStartState(start);

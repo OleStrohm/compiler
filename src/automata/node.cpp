@@ -10,3 +10,7 @@ Node::Node(const std::string& id)
 
 Link::Link(const std::string& condition, Node* next)
 		: condition(condition), next(next) {}
+
+Link::~Link() {
+	//std::cout << "Deleted link" << std::endl;
+}
