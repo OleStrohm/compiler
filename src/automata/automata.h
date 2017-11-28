@@ -22,6 +22,8 @@ public:
 	Automata(const std::string& id);
 	Automata(Automata& original);
 	~Automata();
+	
+	Automata& operator =(Automata&& original);
 
 	void addStartState(Node *node);
 	void addEndState(Node* node);

@@ -28,13 +28,31 @@ Automata::Automata(Automata& original)
 	}
 }
 
-
 Automata::~Automata() {
 	std::cout << "Deleted Automata: " << id << std::endl;
 	for (Node* node : nodes) {
 		std::cout << "DELETED NODE" << std::endl;
 		delete node;
 	}
+}
+
+Automata& Automata::operator =(Automata&& original) {
+	this->id = original.id;
+	while(!original.nodes.empty()) {
+		nodes.push_back(original.nodes[original.nodes.size() - 1]);
+		original.nodes.pop_back();
+	}
+	
+	for (auto& link : original.links) {
+		links.insert(link);
+	}
+	for (Node* start : original.startStates) {
+		startStates.push_back(start);
+	}
+	for (Node* end : original.endStates) {
+		endStates.push_back(end);
+	}
+	return *this;
 }
 
 void Automata::addStartState(Node* node) {
