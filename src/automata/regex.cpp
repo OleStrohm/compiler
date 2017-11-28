@@ -10,7 +10,7 @@
 
 #define LOG(x) std::cout << x << std::endl;
 
-Automata createAutomaton(const std::vector<std::string> &lines, const std::string &name);
+Automata& createAutomaton(const std::vector<std::string> &lines, const std::string &name);
 std::string trim(const std::string &s);
 std::string shortenWhitespace(const std::string &s);
 std::string reformatText(const std::string &s);
@@ -41,7 +41,7 @@ Regex::Regex(const std::string &path) {
 	LOG("finished");
 }
 
-Automata createAutomaton(const std::vector<std::string> &lines, const std::string &name) {
+Automata& createAutomaton(const std::vector<std::string> &lines, const std::string &name) {
 	LOG("Parsing: \"" << name << "\"");
 	int openParentheses = 0;
 	bool inText = false;
@@ -63,7 +63,7 @@ Automata createAutomaton(const std::vector<std::string> &lines, const std::strin
 		}
 	}
 	if (orPos != std::string::npos) { // Todo: Do you want this or that?
-		Automata orAutomata;
+		Automata orAutomata(name);
 		Node* start = orAutomata.createNode("startOA");
 		Node* end = orAutomata.createNode("endOA");
 		Automata child0 = createAutomaton(lines, trim(name.substr(0, orPos)));
@@ -73,7 +73,7 @@ Automata createAutomaton(const std::vector<std::string> &lines, const std::strin
 		orAutomata.link(EPSILON, start, &child1);
 		orAutomata.link(EPSILON, &child0, end);
 		orAutomata.link(EPSILON, &child1, end);
-
+		
 		LOG("or-ing two things");
 
 		return orAutomata;
@@ -99,7 +99,7 @@ Automata createAutomaton(const std::vector<std::string> &lines, const std::strin
 		}
 	}
 	if (concatenatePos != std::string::npos) { // Todo: concatenate everything
-		Automata concatenatedAutomaton;
+		Automata concatenatedAutomaton(name);
 
 		Node* start = concatenatedAutomaton.createNode("startCA");
 		Node* end = concatenatedAutomaton.createNode("endCA");
@@ -135,7 +135,7 @@ Automata createAutomaton(const std::vector<std::string> &lines, const std::strin
 		}
 	}
 	if (unionPos != std::string::npos) { // Todo: union these sons of bitches
-		Automata unionAutomaton;
+		Automata unionAutomaton(name);
 		Node* start = unionAutomaton.createNode("startUA");
 		Node* end = unionAutomaton.createNode("endOA");
 		Automata child0 = createAutomaton(lines, trim(name.substr(0, unionPos)));
@@ -169,7 +169,7 @@ Automata createAutomaton(const std::vector<std::string> &lines, const std::strin
 		}
 	}
 	if (kleenePos != std::string::npos) { // Todo: LOOP THE FUCKING LOOP
-		Automata loopingAutomaton;
+		Automata loopingAutomaton(name);
 		Node* hub = loopingAutomaton.createNode("hubLA");
 		Automata childAutomaton = createAutomaton(lines, trim(name.substr(0, kleenePos)));
 		loopingAutomaton.link(EPSILON, hub, &childAutomaton);
@@ -199,7 +199,7 @@ Automata createAutomaton(const std::vector<std::string> &lines, const std::strin
 		}
 	}
 	if (plusPos != std::string::npos) { // Todo: ONCE + LOOP THE FUCKING LOOP
-		Automata atLeastOneAutomaton;
+		Automata atLeastOneAutomaton(name);
 		Node* start = atLeastOneAutomaton.createNode("startALOA");
 		Node* end = atLeastOneAutomaton.createNode("endALOA");
 		Automata childAutomaton = createAutomaton(lines, trim(name.substr(0, plusPos)));
@@ -232,7 +232,7 @@ Automata createAutomaton(const std::vector<std::string> &lines, const std::strin
 		}
 	}
 	if (questionMarkPos != std::string::npos) { // Todo: YAY OR NAY
-		Automata perhapsAutomaton;
+		Automata perhapsAutomaton(name);
 		Node* start = perhapsAutomaton.createNode("startPA");
 		Node* end = perhapsAutomaton.createNode("endPA");
 		Automata childAutomaton = createAutomaton(lines, trim(name.substr(0, questionMarkPos)));
@@ -251,8 +251,7 @@ Automata createAutomaton(const std::vector<std::string> &lines, const std::strin
 
 	if (name.at(0) == '.') { // todo: create text Automaton.
 		std::string text = reformatText(name.substr(1));
-		LOG("\tI want to find the text: \"" << text << "\"");
-		Automata textAutomaton;
+		Automata textAutomaton(name);
 		Node* start = textAutomaton.createNode("startTA");
 		Node* lastNode = start;
 		for (char ch : text) {
@@ -275,7 +274,6 @@ Automata createAutomaton(const std::vector<std::string> &lines, const std::strin
 		}
 		if (index >= lines.size()) {
 			std::cout << "Couldn't find regex: \"" << name << "\"" << std::endl;
-			LOG("Is there a *? " << (name.find('*') != std::string::npos));
 			return Automata::nullAutomata;
 		}
 		return createAutomaton(lines, shortenWhitespace(trim(lines[index])));

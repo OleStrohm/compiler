@@ -17,6 +17,10 @@ private:
 	std::unordered_map<Node*, std::vector<Link>> links;
 	std::vector<Node*> nodes;
 public:
+	std::string id;
+	
+	Automata(const std::string& id);
+	Automata(Automata& original);
 	~Automata();
 
 	void addStartState(Node *node);
