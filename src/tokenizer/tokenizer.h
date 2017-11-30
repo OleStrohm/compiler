@@ -14,7 +14,7 @@ private:
 	std::vector<Token> tokens;
 	Regex regex;
 public:
-	Tokenizer(std::string regexFile);
+	Tokenizer(const std::string& regexFile);
 
 	void tokenize(std::string text);
 

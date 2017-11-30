@@ -4,8 +4,8 @@
 
 #include "tokenizer.h"
 
-Tokenizer::Tokenizer(std::string regexFile)
-	: regex(regexFile) {}
+Tokenizer::Tokenizer(const std::string& regexFile)
+	: regex(regexFile + ".reg") {}
 
 void Tokenizer::tokenize(std::string text) {
 	unsigned int end = 0;

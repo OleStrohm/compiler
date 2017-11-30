@@ -11,7 +11,7 @@ int main() {
 	std::cout << text << std::endl;
 	std::cout << std::endl;
 
-	Tokenizer tokenizer("tokenizer_regex.txt");
+	Tokenizer tokenizer("tokenizer_regex");
 	auto time0 = clock();
 
 	tokenizer.tokenize(text);
