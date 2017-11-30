@@ -8,8 +8,6 @@
 #include "regex.h"
 #include "automata.h"
 
-#define LOG(x) std::cout << x << std::endl;
-
 Automaton createAutomaton(const std::vector<std::string>& lines, const std::string& name);
 std::string trim(const std::string& s);
 std::string shortenWhitespace(const std::string& s);
@@ -51,9 +49,6 @@ Regex::Regex(const std::string& path) {
 
 	for (unsigned int i : regexes)
 		automata.push_back(createAutomaton(lines, shortenWhitespace(trim(lines[i]))));
-
-//	for (auto& name : names)
-//		std::cout << name << std::endl;
 }
 
 Token Regex::extractToken(const std::string& text, const unsigned int start, unsigned int* end) {
@@ -99,7 +94,6 @@ Token Regex::extractToken(const std::string& text, const unsigned int start, uns
 }
 
 Automaton createAutomaton(const std::vector<std::string>& lines, const std::string& name) {
-//	LOG("Parsing: \"" << name << "\"");
 	int openParentheses = 0;
 	bool inText = false;
 	
@@ -328,7 +322,6 @@ Automaton createAutomaton(const std::vector<std::string>& lines, const std::stri
 	
 	if (name.at(0) == '\'') {
 		std::string text = reformatText(name.substr(1, name.length() - 2));
-//		LOG("I want to find the text: \"" << name << "\"");
 		Automaton textAutomaton(name);
 		Node* start = textAutomaton.createNode("startTA");
 		Node* lastNode = start;
@@ -431,7 +424,7 @@ std::string reformatText(const std::string& s) {
 		result = result.replace(replacePos, 2, "\\");
 		replacePos = result.find("\\\\", replacePos);
 	}
-	
+
 	replacePos = result.find("\\'");
 	while (replacePos != std::string::npos) {
 		result = result.replace(replacePos, 2, "'");

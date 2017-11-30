@@ -3,17 +3,11 @@
 //
 
 #pragma once
+
 #include <string>
 #include <utility>
 #include "automata.h"
-
-struct Token {
-	const std::string& type;
-	const std::string text;
-	
-	Token(const std::string& type, std::string text)
-			: type(type), text(std::move(text)) {}
-};
+#include "token.h"
 
 class Regex {
 private:

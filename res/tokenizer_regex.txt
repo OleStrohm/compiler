@@ -63,10 +63,6 @@ number:
 	'8'
 	'9'
 
-escapeCharacter:
-	'\' ('0' | 'n' | 't' | '"' | '\')
-
-
 keyword>
 	'unsigned'
 	'long'
@@ -88,25 +84,36 @@ keyword>
 	'const'
 
 identifier>
-	letter (letter | number)*
+	('_' | letter) ('_' | letter | number)*
 
 operator>
 	'+'
 	'-'
 	'*'
 	'/'
+	'%'
 	'='
+	'!='
+	'=='
+	'+='
+	'-='
+    '*='
+    '/='
+    '%='
+    '&='
+    '|='
+    '^='
 	'&'
 	'&&'
 	'|'
 	'||'
 	'^'
 	'!'
-	'%'
-	':'
-	'?'
-	'.'
 	'~'
+	'?'
+	':'
+	'.'
+	'->'
 
 separator>
 	'('
@@ -119,11 +126,14 @@ separator>
 	';'
 
 literals>
-	'"' (letter | number)* '"'
+	'"' ('_' | '-' | '+' | '*' | '?' | '^' | '`' | '|' | '@' | '$' | '&' | '{' | '[' | ']' | '}' | '(' | ')' | ',' | '.' | '%' | '`' | '\'' | '!' | '$' | escapeCharacter | letter | number | whitespace)* '"'
 
 literaln>
-	('+' | '-')? (number+ ('.' number+)? | ('.' number+)) (('F' | 'f') | ('E' | 'e') ('+' | '-')? number* ('.' number*)?)?
+	('+' | '-')? (number+ ('.' number+)? | ('.' number+)) (('F' | 'f') | ('E' | 'e') ('+' | '-')? number+)?
 
 whitespace>
     ('\t' | ' ' | '\n')*
+
+escapeCharacter:
+	'\' ('0' | 'n' | 't' | '"' | '\')
 

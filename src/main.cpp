@@ -1,34 +1,36 @@
 #include <iostream>
-#include "automata/automata.h"
-#include "automata/regex.h"
+#include <ctime>
+#include "tokenizer/tokenizer.h"
 
-std::string visualizeWhitespace(const std::string& s);
+std::string visualizeWhitespace(const std::string &s);
 
 int main() {
-	Regex reg("regexExample.txt");
-	
-	std::string text = "float x = -.5f;";
+	std::string text = "float x = -.5f\n"
+			           "			int potet    = -.7e37;";
 	std::cout << std::endl;
 	std::cout << text << std::endl;
 	std::cout << std::endl;
-	
-	unsigned int end = 0;
-	while (end < text.length()) {
-		Token s = reg.extractToken(text, end, &end);
-		printf("%-11s  |  %s\n", s.type.c_str(), visualizeWhitespace(s.text).c_str());
-	}
-	
+
+	Tokenizer tokenizer("tokenizer_regex.txt");
+	auto time0 = clock();
+
+	tokenizer.tokenize(text);
+	for (auto token : tokenizer.getTokens())
+		printf("%-11s  |  %s\n", token.type.c_str(), visualizeWhitespace(token.text).c_str());
+
+	std::cout << std::endl << "Time used: " << (clock() - time0) / (float) CLOCKS_PER_SEC << "ms" << std::endl;
+
 	return 0;
 }
 
-std::string visualizeWhitespace(const std::string& s) {
+std::string visualizeWhitespace(const std::string &s) {
 	std::string res;
-	for(char ch : s) {
-		if(ch == ' ') {
+	for (char ch : s) {
+		if (ch == ' ') {
 			res += "\\s";
-		} else if(ch == '\n') {
+		} else if (ch == '\n') {
 			res += "\\n";
-		} else if(ch == '\t') {
+		} else if (ch == '\t') {
 			res += "\\t";
 		} else {
 			res += ch;
