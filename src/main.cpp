@@ -6,7 +6,7 @@ std::string visualizeWhitespace(const std::string &s);
 
 int main() {
 	std::string text = "float x = -.5f\n"
-			           "			int potet    = -.7e37;";
+			           "			int potet    = +.7e37;";
 	std::cout << std::endl;
 	std::cout << text << std::endl;
 	std::cout << std::endl;
