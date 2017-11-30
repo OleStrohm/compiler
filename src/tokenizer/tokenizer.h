@@ -16,7 +16,7 @@ private:
 public:
 	Tokenizer(const std::string& regexFile);
 
-	void tokenize(std::string text);
+	void tokenize(const std::string& text);
 
 	const std::vector<Token>& getTokens() {
 		tokens;
