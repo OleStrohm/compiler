@@ -10,20 +10,20 @@
 
 #define LOG(x) std::cout << x << std::endl;
 
-Automaton createAutomaton(const std::vector<std::string> &lines, const std::string &name);
-std::string trim(const std::string &s);
-std::string shortenWhitespace(const std::string &s);
-std::string reformatText(const std::string &s);
-bool startsWith(const std::string &s, const std::string &test);
+Automaton createAutomaton(const std::vector<std::string>& lines, const std::string& name);
+std::string trim(const std::string& s);
+std::string shortenWhitespace(const std::string& s);
+std::string reformatText(const std::string& s);
+bool startsWith(const std::string& s, const std::string& test);
 
-Regex::Regex(const std::string &path) {
+Regex::Regex(const std::string& path) {
 	std::ifstream file(path);
 	std::vector<std::string> lines;
 	std::string line;
 	while (std::getline(file, line)) {
 		line = trim(line);
 		const std::string& lastLine = lines[lines.size() - 1];
-		if (line.empty()) {
+		if (line.empty() || line[0] == '#') {
 			continue;
 		} else if (!lines.empty() && !(line[line.length() - 1] == '>' || line[line.length() - 1] == ':') && !(lines[lines.size() - 1][lines[lines.size() - 1].length() - 1] == '>' || lines[lines.size() - 1][lines[lines.size() - 1].length() - 1] == ':')) {
 			lines[lines.size() - 1] = lines[lines.size() - 1] + " | " + line;
@@ -31,43 +31,83 @@ Regex::Regex(const std::string &path) {
 			lines.emplace_back(line);
 		}
 	}
-
-//	for(auto& line : lines) {
-//		std::cout << line << std::endl;
+	
+//	for (auto& line : lines) {
+//		std::cout << shortenWhitespace(line) << std::endl;
 //	}
 	std::vector<unsigned int> regexes;
-	std::vector<std::string> names;
 	unsigned int index = 1;
-	for(auto& line : lines) {
-		if(line[line.length()-1] == '>') {
+	for (auto& line : lines) {
+		if (line[line.length() - 1] == '>') {
 			regexes.emplace_back(index);
-			names.emplace_back(line.substr(0, line.length()-1));
+			names.emplace_back(line.substr(0, line.length() - 1));
 		}
 		index++;
 	}
-	
-	std::vector<Automaton> automata;
+
+	names.emplace_back("error");
+
 	automata.reserve(regexes.size());
-	
-	for(unsigned int i : regexes)
+
+	for (unsigned int i : regexes)
 		automata.push_back(createAutomaton(lines, shortenWhitespace(trim(lines[i]))));
-	
-	//automata[0].printLinks();
-	for(auto& name : names) {
-		std::cout << name << std::endl;
-	}
+
+//	for (auto& name : names)
+//		std::cout << name << std::endl;
 }
 
-Automaton createAutomaton(const std::vector<std::string> &lines, const std::string &name) {
-	//LOG("Parsing: \"" << name << "\"");
+Token Regex::extractToken(const std::string& text, const unsigned int start, unsigned int* end) {
+	for (auto& a : automata) {
+		a.reset();
+	}
+	
+	std::vector<bool> validAutomatons(automata.size(), true);
+	unsigned int validCount = (int) automata.size();
+	unsigned int pos = start;
+	
+	while (validCount > 0 && pos < text.length()) {
+		int index = 0;
+		for (auto& a : automata) {
+			a.feed(std::string(1, text[pos]));
+			if (a.hasFailed() && validAutomatons[index]) {
+				validCount--;
+			}
+			index++;
+		}
+		if (validCount == 0)
+			break;
+		index = 0;
+		for (auto& a : automata) {
+			if (a.hasFailed()) {
+				validAutomatons[index] = false;
+			}
+			index++;
+		}
+		pos++;
+	}
+	*end = pos;
+	
+	if (pos != start)
+		for (int i = 0; i < validAutomatons.size(); i++) {
+			if (!validAutomatons[i] || !automata[i].inEndState())
+				continue;
+			
+			return {names[i], text.substr(start, pos - start)};
+		}
+	(*end)++;
+	return {names[names.size() - 1], text.substr(start, (*end) - start)};
+}
+
+Automaton createAutomaton(const std::vector<std::string>& lines, const std::string& name) {
+//	LOG("Parsing: \"" << name << "\"");
 	int openParentheses = 0;
 	bool inText = false;
-
+	
 	auto orPos = std::string::npos;
 	for (unsigned long long int p = 0; p < name.length(); p++) {
 		if (name.at(p) == '\'')
 			inText = !inText;
-		if(inText && name.at(p) == '\\') {
+		if (inText && name.at(p) == '\\') {
 			p++;
 			continue;
 		}
@@ -75,19 +115,19 @@ Automaton createAutomaton(const std::vector<std::string> &lines, const std::stri
 			openParentheses++;
 		if (!inText && name.at(p) == ')')
 			openParentheses--;
-
+		
 		if (!inText && openParentheses == 0 && name.at(p) == '|') {
 			orPos = p;
 			break;
 		}
 	}
-	if (orPos != std::string::npos) { // Todo: Do you want this or that?
+	if (orPos != std::string::npos) {
 		Automaton orAutomata(name);
 		Node* start = orAutomata.createNode("startOA");
 		Node* end = orAutomata.createNode("endOA");
 		Automaton child0 = createAutomaton(lines, trim(name.substr(0, orPos)));
 		Automaton child1 = createAutomaton(lines, trim(name.substr(orPos + 1)));
-
+		
 		orAutomata.link(EPSILON, start, &child0);
 		orAutomata.link(EPSILON, start, &child1);
 		orAutomata.link(EPSILON, &child0, end);
@@ -98,14 +138,14 @@ Automaton createAutomaton(const std::vector<std::string> &lines, const std::stri
 		
 		return orAutomata;
 	}
-
+	
 	auto concatenatePos = std::string::npos;
 	openParentheses = 0;
 	inText = false;
 	for (unsigned long long int p = 0; p < name.length() - 1; p++) {
 		if (name.at(p) == '\'')
 			inText = !inText;
-		if(inText && name.at(p) == '\\') {
+		if (inText && name.at(p) == '\\') {
 			p++;
 			continue;
 		}
@@ -113,38 +153,38 @@ Automaton createAutomaton(const std::vector<std::string> &lines, const std::stri
 			openParentheses++;
 		if (!inText && name.at(p) == ')')
 			openParentheses--;
-
-		if (openParentheses == 0 && name.at(p) == ' ' && name.at(p + 1) != '|' && name.at(p + 1) != '&' && name.at(p + 1) != '*' && name.at(p + 1) != '+' && name.at(p + 1) != '?'
-					&& p > 0 && name.at(p - 1) != '|' && name.at(p - 1) != '&') {
+		
+		if (!inText && openParentheses == 0 && name.at(p) == ' ' && name.at(p + 1) != '|' && name.at(p + 1) != '&' && name.at(p + 1) != '*' && name.at(p + 1) != '+' && name.at(p + 1) != '?'
+			&& p > 0 && name.at(p - 1) != '|' && name.at(p - 1) != '&') {
 			concatenatePos = p;
 			break;
 		}
 	}
-	if (concatenatePos != std::string::npos) { // Todo: concatenate everything
+	if (concatenatePos != std::string::npos) {
 		Automaton concatenatedAutomaton(name);
-
+		
 		Node* start = concatenatedAutomaton.createNode("startCA");
 		Node* end = concatenatedAutomaton.createNode("endCA");
 		Automaton leftChild = createAutomaton(lines, trim(name.substr(0, concatenatePos)));
 		Automaton rightChild = createAutomaton(lines, trim(name.substr(concatenatePos + 1)));
-
+		
 		concatenatedAutomaton.link(EPSILON, start, &leftChild);
 		concatenatedAutomaton.link(EPSILON, &leftChild, &rightChild);
 		concatenatedAutomaton.link(EPSILON, &rightChild, end);
-
+		
 		concatenatedAutomaton.addStartState(start);
 		concatenatedAutomaton.addEndState(end);
-
+		
 		return concatenatedAutomaton;
 	}
-
+	
 	auto unionPos = std::string::npos;
 	openParentheses = 0;
 	inText = false;
 	for (unsigned long long int p = 0; p < name.length(); p++) {
 		if (name.at(p) == '\'')
 			inText = !inText;
-		if(inText && name.at(p) == '\\') {
+		if (inText && name.at(p) == '\\') {
 			p++;
 			continue;
 		}
@@ -152,19 +192,19 @@ Automaton createAutomaton(const std::vector<std::string> &lines, const std::stri
 			openParentheses++;
 		if (!inText && name.at(p) == ')')
 			openParentheses--;
-
+		
 		if (!inText && openParentheses == 0 && name.at(p) == '&') {
 			unionPos = p;
 			break;
 		}
 	}
-	if (unionPos != std::string::npos) { // Todo: union these sons of bitches
+	if (unionPos != std::string::npos) {
 		Automaton unionAutomaton(name);
 		Node* start = unionAutomaton.createNode("startUA");
 		Node* end = unionAutomaton.createNode("endOA");
 		Automaton child0 = createAutomaton(lines, trim(name.substr(0, unionPos)));
 		Automaton child1 = createAutomaton(lines, trim(name.substr(unionPos + 1)));
-
+		
 		unionAutomaton.link(EPSILON, start, &child0);
 		unionAutomaton.link(EPSILON, start, &child1);
 		unionAutomaton.link(EPSILON, &child0, end);
@@ -172,17 +212,17 @@ Automaton createAutomaton(const std::vector<std::string> &lines, const std::stri
 		
 		unionAutomaton.addStartState(start);
 		unionAutomaton.addEndState(end);
-
+		
 		return unionAutomaton;
 	}
-
+	
 	auto kleenePos = std::string::npos;
 	openParentheses = 0;
 	inText = false;
 	for (unsigned long long int p = 0; p < name.length(); p++) {
 		if (name.at(p) == '\'')
 			inText = !inText;
-		if(inText && name.at(p) == '\\') {
+		if (inText && name.at(p) == '\\') {
 			p++;
 			continue;
 		}
@@ -190,13 +230,13 @@ Automaton createAutomaton(const std::vector<std::string> &lines, const std::stri
 			openParentheses++;
 		if (!inText && name.at(p) == ')')
 			openParentheses--;
-
+		
 		if (!inText && openParentheses == 0 && name.at(p) == '*') {
 			kleenePos = p;
 			break;
 		}
 	}
-	if (kleenePos != std::string::npos) { // Todo: LOOP THE FUCKING LOOP
+	if (kleenePos != std::string::npos) {
 		Automaton loopingAutomaton(name);
 		Node* hub = loopingAutomaton.createNode("hubLA");
 		Automaton childAutomaton = createAutomaton(lines, trim(name.substr(0, kleenePos)));
@@ -206,17 +246,17 @@ Automaton createAutomaton(const std::vector<std::string> &lines, const std::stri
 		
 		loopingAutomaton.addStartState(hub);
 		loopingAutomaton.addEndState(hub);
-
+		
 		return loopingAutomaton;
 	}
-
+	
 	auto plusPos = std::string::npos;
 	openParentheses = 0;
 	inText = false;
 	for (unsigned long long int p = 0; p < name.length(); p++) {
 		if (name.at(p) == '\'')
 			inText = !inText;
-		if(inText && name.at(p) == '\\') {
+		if (inText && name.at(p) == '\\') {
 			p++;
 			continue;
 		}
@@ -224,13 +264,13 @@ Automaton createAutomaton(const std::vector<std::string> &lines, const std::stri
 			openParentheses++;
 		if (!inText && name.at(p) == ')')
 			openParentheses--;
-
+		
 		if (!inText && openParentheses == 0 && name.at(p) == '+') {
 			plusPos = p;
 			break;
 		}
 	}
-	if (plusPos != std::string::npos) { // Todo: ONCE + LOOP THE FUCKING LOOP
+	if (plusPos != std::string::npos) {
 		Automaton atLeastOneAutomaton(name);
 		Node* start = atLeastOneAutomaton.createNode("startALOA");
 		Node* end = atLeastOneAutomaton.createNode("endALOA");
@@ -239,20 +279,20 @@ Automaton createAutomaton(const std::vector<std::string> &lines, const std::stri
 		atLeastOneAutomaton.link(EPSILON, start, &childAutomaton);
 		atLeastOneAutomaton.link(EPSILON, &childAutomaton, end);
 		atLeastOneAutomaton.link(EPSILON, end, &childAutomaton);
-
+		
 		atLeastOneAutomaton.addStartState(start);
 		atLeastOneAutomaton.addEndState(end);
-
+		
 		return atLeastOneAutomaton;
 	}
-
+	
 	auto questionMarkPos = std::string::npos;
 	openParentheses = 0;
 	inText = false;
 	for (unsigned long long int p = 0; p < name.length(); p++) {
 		if (name.at(p) == '\'')
 			inText = !inText;
-		if(inText && name.at(p) == '\\') {
+		if (inText && name.at(p) == '\\') {
 			p++;
 			continue;
 		}
@@ -260,13 +300,13 @@ Automaton createAutomaton(const std::vector<std::string> &lines, const std::stri
 			openParentheses++;
 		if (!inText && name.at(p) == ')')
 			openParentheses--;
-
+		
 		if (!inText && openParentheses == 0 && name.at(p) == '?') {
 			questionMarkPos = p;
 			break;
 		}
 	}
-	if (questionMarkPos != std::string::npos) { // Todo: YAY OR NAY
+	if (questionMarkPos != std::string::npos) {
 		Automaton perhapsAutomaton(name);
 		Node* start = perhapsAutomaton.createNode("startPA");
 		Node* end = perhapsAutomaton.createNode("endPA");
@@ -278,17 +318,17 @@ Automaton createAutomaton(const std::vector<std::string> &lines, const std::stri
 		
 		perhapsAutomaton.addStartState(start);
 		perhapsAutomaton.addEndState(end);
-
+		
 		return perhapsAutomaton;
 	}
-
+	
 	if (name.at(0) == '(' && name.at(name.length() - 1) == ')') {
 		return createAutomaton(lines, trim(name.substr(1, name.length() - 2)));
 	}
-
-	if (name.at(0) == '\'') { // todo: create text Automaton.
-		std::string text = reformatText(name.substr(1, name.length()-2));
-		LOG("I want to find the text: \"" << text << "\"");
+	
+	if (name.at(0) == '\'') {
+		std::string text = reformatText(name.substr(1, name.length() - 2));
+//		LOG("I want to find the text: \"" << name << "\"");
 		Automaton textAutomaton(name);
 		Node* start = textAutomaton.createNode("startTA");
 		Node* lastNode = start;
@@ -318,12 +358,12 @@ Automaton createAutomaton(const std::vector<std::string> &lines, const std::stri
 	}
 }
 
-std::string trim(const std::string &s) {
-	if(s.empty())
+std::string trim(const std::string& s) {
+	if (s.empty())
 		return "";
 	unsigned long long int startPos = 0;
 	unsigned long long int endPos = s.length() - 1;
-
+	
 	for (; startPos < s.length(); startPos++) {
 		if (s.at(startPos) != '\t' && s.at(startPos) != ' ')
 			break;
@@ -335,39 +375,57 @@ std::string trim(const std::string &s) {
 	return s.substr(startPos, endPos + 1 - startPos);
 }
 
-std::string shortenWhitespace(const std::string &s) {
+std::string shortenWhitespace(const std::string& s) {
 	std::string res;
 	bool inWhitespace = false;
-
-	for (char c : s) {
-		if (c == '\t' || c == ' ')
+	bool inText = false;
+	
+	for (int i = 0; i < s.length(); i++) {
+		char ch = s[i];
+		if (ch == '\'') {
+			inText = !inText;
+			if(inWhitespace)
+				res += " ";
+			inWhitespace = false;
+		}
+		if (inText) {
+			res += ch;
+			if (ch == '\\') {
+				i++;
+				res += s[i];
+				continue;
+			}
+			continue;
+		}
+		
+		if (ch == '\t' || ch == ' ')
 			inWhitespace = true;
 		else if (inWhitespace) {
 			inWhitespace = false;
 			res += " ";
-			res += c;
+			res += ch;
 		} else {
-			res += c;
+			res += ch;
 		}
 	}
-
+	
 	return res;
 }
 
-std::string reformatText(const std::string &s) {
+std::string reformatText(const std::string& s) {
 	std::string result = s;
 	unsigned long long int replacePos = result.find("\\n");
 	while (replacePos != std::string::npos) {
 		result = result.replace(replacePos, 2, "\n");
 		replacePos = result.find("\\n", replacePos);
 	}
-
+	
 	replacePos = result.find("\\t");
 	while (replacePos != std::string::npos) {
 		result = result.replace(replacePos, 2, "\t");
 		replacePos = result.find("\\t", replacePos);
 	}
-
+	
 	replacePos = result.find("\\\\");
 	while (replacePos != std::string::npos) {
 		result = result.replace(replacePos, 2, "\\");
@@ -383,7 +441,7 @@ std::string reformatText(const std::string &s) {
 	return result;
 }
 
-bool startsWith(const std::string &s, const std::string &test) {
+bool startsWith(const std::string& s, const std::string& test) {
 	if (test.length() > s.length())
 		return false;
 	for (int i = 0; i < test.length(); i++) {

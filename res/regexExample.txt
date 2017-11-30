@@ -64,31 +64,66 @@ number:
 	'9'
 
 escapeCharacter:
-	'\' ('0' & 'n' & 't' & '"' & '\')
+	'\' ('0' | 'n' | 't' | '"' | '\')
 
-int:
-	'int'
-
-for:
-	'for'
-
-operator>
-	'+' & '-' & '*' & '/'
 
 keyword>
-	int & for
+	'unsigned'
+	'long'
+	'int'
+	'short'
+	'byte'
+	'double'
+	'float'
+	'for'
+	'while'
+	'operator'
+	'new'
+	'delete'
+	'do'
+	'if'
+	'else'
+	'return'
+	'implicit'
+	'const'
 
 identifier>
-	letter (letter & number & escapeCharacter)*
+	letter (letter | number)*
+
+operator>
+	'+'
+	'-'
+	'*'
+	'/'
+	'='
+	'&'
+	'&&'
+	'|'
+	'||'
+	'^'
+	'!'
+	'%'
+	':'
+	'?'
+	'.'
+	'~'
+
+separator>
+	'('
+	')'
+	'{'
+	'}'
+	'['
+	']'
+	','
+	';'
 
 literals>
-	'"' (letter & number)* '"'
+	'"' (letter | number)* '"'
 
 literaln>
-	('+' & '-')? number* ('.' number*)?
+	('+' | '-')? (number+ ('.' number+)? | ('.' number+)) (('F' | 'f') | ('E' | 'e') ('+' | '-')? number* ('.' number*)?)?
 
 whitespace>
-    '\t'
-    ' '
-    '\n'
+    ('\t' | ' ' | '\n')*
 

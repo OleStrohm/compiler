@@ -2,40 +2,37 @@
 #include "automata/automata.h"
 #include "automata/regex.h"
 
+std::string visualizeWhitespace(const std::string& s);
+
 int main() {
-//	Node s("0");
-//	Node n2("1");
-//	Node n3("2");
-//	Automaton a;
-//	a.addStartState(&s);
-//	a.addEndState(&s);
-//	a.link("0", &s, &s);
-//	a.link("1", &s, &n2);
-//	a.link("0", &n2, &n3);
-//	a.link("1", &n2, &s);
-//	a.link("0", &n3, &n2);
-//	a.link("1", &n3, &n3);
-//
-//	Node l0("cool");
-//	Node l1("middle");
-//	Automaton au;
-//	au.addStartState(&l0);
-//	au.reset();
-//	au.addEndState(&l0);
-//	au.addEndState(&l1);
-//	au.link("A", &l0, &l1);
-//	au.link(EPSILON, "A", &l1, &l1, &a);
-//
-//	au.feed("A");
-//	au.feed("1");
-//	au.feed("0");
-//
-//	au.print();
-//
-//	std::cout << std::endl;
-//	au.printLinks();
-	
 	Regex reg("regexExample.txt");
 	
+	std::string text = "float x = -.5f;";
+	std::cout << std::endl;
+	std::cout << text << std::endl;
+	std::cout << std::endl;
+	
+	unsigned int end = 0;
+	while (end < text.length()) {
+		Token s = reg.extractToken(text, end, &end);
+		printf("%-11s  |  %s\n", s.type.c_str(), visualizeWhitespace(s.text).c_str());
+	}
+	
 	return 0;
+}
+
+std::string visualizeWhitespace(const std::string& s) {
+	std::string res;
+	for(char ch : s) {
+		if(ch == ' ') {
+			res += "\\s";
+		} else if(ch == '\n') {
+			res += "\\n";
+		} else if(ch == '\t') {
+			res += "\\t";
+		} else {
+			res += ch;
+		}
+	}
+	return res;
 }
