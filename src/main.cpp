@@ -20,6 +20,8 @@ int main() {
 	
 	std::cout << std::endl << "Time used: " << (clock() - time0) / (float) CLOCKS_PER_SEC << "ms" << std::endl;
 	
+	
+	
 	return 0;
 }
 
