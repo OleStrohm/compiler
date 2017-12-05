@@ -2,24 +2,24 @@
 // Created by Ole on 05.12.2017.
 //
 
-#include "CFG.h"
+#include "contextFreeGrammar.h"
 
 #include <fstream>
 #include <iostream>
+#include "../util/util.h"
 
 void parse(std::vector<std::string> lines);
-std::string trim(const std::string& s);
 
 CFG::CFG(std::string filepath) {
 	std::ifstream file(filepath);
 	std::vector<std::string> lines;
 	std::string line;
 	while (std::getline(file, line)) {
-		line = trim(line);
+		line = util::trim(line);
 		if (line.empty() || line[0] == '#')
 			continue;
 		if(lines.empty() || line[line.length() - 1] == ':') {
-			lines.push_back(trim(line));
+			lines.push_back(util::trim(line));
 		} else if(line[0] == '|') {
 			std::string& lastLine = lines.back();
 			if(lastLine[lastLine.size() - 1] == ':') {
@@ -30,9 +30,9 @@ CFG::CFG(std::string filepath) {
 		} else if(line[0] == ':') {
 			std::string& lastLine = lines.back();
 			if(lastLine[lastLine.size() - 1] == ':') {
-				lines.push_back(trim(line.substr(1)));
+				lines.push_back(util::trim(line.substr(1)));
 			} else {
-				lastLine += " " + trim(line.substr(1));
+				lastLine += " " + util::trim(line.substr(1));
 			}
 		}
 	}
@@ -53,21 +53,4 @@ void parse(std::vector<std::string> lines) {
 
 		}
 	}
-}
-
-std::string trim(const std::string& s) {
-	if (s.empty())
-		return "";
-	unsigned long long int startPos = 0;
-	unsigned long long int endPos = s.length() - 1;
-
-	for (; startPos < s.length(); startPos++) {
-		if (s.at(startPos) != '\t' && s.at(startPos) != ' ')
-			break;
-	}
-	for (; endPos >= 0; endPos--) {
-		if (s.at(endPos) != '\t' && s.at(endPos) != ' ')
-			break;
-	}
-	return s.substr(startPos, endPos + 1 - startPos);
 }

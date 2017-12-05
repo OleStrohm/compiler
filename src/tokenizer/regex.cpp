@@ -7,29 +7,28 @@
 #include <iostream>
 #include "regex.h"
 #include "automata.h"
+#include "../util/util.h"
 
 Automaton createAutomaton(const std::vector<std::string>& lines, const std::string& name);
-std::string trim(const std::string& s);
-std::string shortenWhitespace(const std::string& s);
-std::string reformatText(const std::string& s);
-bool startsWith(const std::string& s, const std::string& test);
 
 Regex::Regex(const std::string& path) {
 	std::ifstream file(path);
 	std::vector<std::string> lines;
 	std::string line;
 	while (std::getline(file, line)) {
-		line = trim(line);
+		line = util::trim(line);
 		const std::string& lastLine = lines[lines.size() - 1];
 		if (line.empty() || line[0] == '#') {
 			continue;
-		} else if (!lines.empty() && !(line[line.length() - 1] == '>' || line[line.length() - 1] == ':') && !(lines[lines.size() - 1][lines[lines.size() - 1].length() - 1] == '>' || lines[lines.size() - 1][lines[lines.size() - 1].length() - 1] == ':')) {
+		} else if (!lines.empty()
+				   && !(line[line.length() - 1] == '>' || line[line.length() - 1] == ':')
+				   && !(lines[lines.size() - 1][lines[lines.size() - 1].length() - 1] == '>' || lines[lines.size() - 1][lines[lines.size() - 1].length() - 1] == ':')) {
 			lines[lines.size() - 1] = lines[lines.size() - 1] + " | " + line;
 		} else {
 			lines.push_back(line);
 		}
 	}
-	
+
 //	for (auto& line : lines) {
 //		std::cout << shortenWhitespace(line) << std::endl;
 //	}
@@ -42,13 +41,13 @@ Regex::Regex(const std::string& path) {
 		}
 		index++;
 	}
-
+	
 	names.emplace_back("error");
-
+	
 	automata.reserve(regexes.size());
-
+	
 	for (unsigned int i : regexes)
-		automata.push_back(createAutomaton(lines, shortenWhitespace(trim(lines[i]))));
+		automata.push_back(createAutomaton(lines, util::shortenWhitespace(util::trim(lines[i]))));
 }
 
 Token Regex::extractToken(const std::string& text, const unsigned int start, unsigned int* end) {
@@ -119,8 +118,8 @@ Automaton createAutomaton(const std::vector<std::string>& lines, const std::stri
 		Automaton orAutomata(name);
 		Node* start = orAutomata.createNode("startOA");
 		Node* end = orAutomata.createNode("endOA");
-		Automaton child0 = createAutomaton(lines, trim(name.substr(0, orPos)));
-		Automaton child1 = createAutomaton(lines, trim(name.substr(orPos + 1)));
+		Automaton child0 = createAutomaton(lines, util::trim(name.substr(0, orPos)));
+		Automaton child1 = createAutomaton(lines, util::trim(name.substr(orPos + 1)));
 		
 		orAutomata.link(EPSILON, start, &child0);
 		orAutomata.link(EPSILON, start, &child1);
@@ -159,8 +158,8 @@ Automaton createAutomaton(const std::vector<std::string>& lines, const std::stri
 		
 		Node* start = concatenatedAutomaton.createNode("startCA");
 		Node* end = concatenatedAutomaton.createNode("endCA");
-		Automaton leftChild = createAutomaton(lines, trim(name.substr(0, concatenatePos)));
-		Automaton rightChild = createAutomaton(lines, trim(name.substr(concatenatePos + 1)));
+		Automaton leftChild = createAutomaton(lines, util::trim(name.substr(0, concatenatePos)));
+		Automaton rightChild = createAutomaton(lines, util::trim(name.substr(concatenatePos + 1)));
 		
 		concatenatedAutomaton.link(EPSILON, start, &leftChild);
 		concatenatedAutomaton.link(EPSILON, &leftChild, &rightChild);
@@ -196,8 +195,8 @@ Automaton createAutomaton(const std::vector<std::string>& lines, const std::stri
 		Automaton unionAutomaton(name);
 		Node* start = unionAutomaton.createNode("startUA");
 		Node* end = unionAutomaton.createNode("endOA");
-		Automaton child0 = createAutomaton(lines, trim(name.substr(0, unionPos)));
-		Automaton child1 = createAutomaton(lines, trim(name.substr(unionPos + 1)));
+		Automaton child0 = createAutomaton(lines, util::trim(name.substr(0, unionPos)));
+		Automaton child1 = createAutomaton(lines, util::trim(name.substr(unionPos + 1)));
 		
 		unionAutomaton.link(EPSILON, start, &child0);
 		unionAutomaton.link(EPSILON, start, &child1);
@@ -233,7 +232,7 @@ Automaton createAutomaton(const std::vector<std::string>& lines, const std::stri
 	if (kleenePos != std::string::npos) {
 		Automaton loopingAutomaton(name);
 		Node* hub = loopingAutomaton.createNode("hubLA");
-		Automaton childAutomaton = createAutomaton(lines, trim(name.substr(0, kleenePos)));
+		Automaton childAutomaton = createAutomaton(lines, util::trim(name.substr(0, kleenePos)));
 		
 		loopingAutomaton.link(EPSILON, hub, &childAutomaton);
 		loopingAutomaton.link(EPSILON, &childAutomaton, hub);
@@ -268,7 +267,7 @@ Automaton createAutomaton(const std::vector<std::string>& lines, const std::stri
 		Automaton atLeastOneAutomaton(name);
 		Node* start = atLeastOneAutomaton.createNode("startALOA");
 		Node* end = atLeastOneAutomaton.createNode("endALOA");
-		Automaton childAutomaton = createAutomaton(lines, trim(name.substr(0, plusPos)));
+		Automaton childAutomaton = createAutomaton(lines, util::trim(name.substr(0, plusPos)));
 		
 		atLeastOneAutomaton.link(EPSILON, start, &childAutomaton);
 		atLeastOneAutomaton.link(EPSILON, &childAutomaton, end);
@@ -304,7 +303,7 @@ Automaton createAutomaton(const std::vector<std::string>& lines, const std::stri
 		Automaton perhapsAutomaton(name);
 		Node* start = perhapsAutomaton.createNode("startPA");
 		Node* end = perhapsAutomaton.createNode("endPA");
-		Automaton childAutomaton = createAutomaton(lines, trim(name.substr(0, questionMarkPos)));
+		Automaton childAutomaton = createAutomaton(lines, util::trim(name.substr(0, questionMarkPos)));
 		
 		perhapsAutomaton.link(EPSILON, start, end);
 		perhapsAutomaton.link(EPSILON, start, &childAutomaton);
@@ -317,11 +316,11 @@ Automaton createAutomaton(const std::vector<std::string>& lines, const std::stri
 	}
 	
 	if (name.at(0) == '(' && name.at(name.length() - 1) == ')') {
-		return createAutomaton(lines, trim(name.substr(1, name.length() - 2)));
+		return createAutomaton(lines, util::trim(name.substr(1, name.length() - 2)));
 	}
 	
 	if (name.at(0) == '\'') {
-		std::string text = reformatText(name.substr(1, name.length() - 2));
+		std::string text = util::reformatText(name.substr(1, name.length() - 2));
 		Automaton textAutomaton(name);
 		Node* start = textAutomaton.createNode("startTA");
 		Node* lastNode = start;
@@ -336,9 +335,9 @@ Automaton createAutomaton(const std::vector<std::string>& lines, const std::stri
 	} else {
 		int index = 1;
 		for (std::string line : lines) {
-			line = trim(line);
+			line = util::trim(line);
 			if (line[line.length() - 1] == ':' || line[line.length() - 1] == '>') {
-				if (startsWith(line, name))
+				if (util::startsWith(line, name))
 					break;
 			}
 			index++;
@@ -347,99 +346,6 @@ Automaton createAutomaton(const std::vector<std::string>& lines, const std::stri
 			std::cout << "Couldn't find regex: \"" << name << "\"" << std::endl;
 			return Automaton::nullAutomaton;
 		}
-		return createAutomaton(lines, shortenWhitespace(trim(lines[index])));
+		return createAutomaton(lines, util::shortenWhitespace(util::trim(lines[index])));
 	}
-}
-
-std::string trim(const std::string& s) {
-	if (s.empty())
-		return "";
-	unsigned long long int startPos = 0;
-	unsigned long long int endPos = s.length() - 1;
-	
-	for (; startPos < s.length(); startPos++) {
-		if (s.at(startPos) != '\t' && s.at(startPos) != ' ')
-			break;
-	}
-	for (; endPos >= 0; endPos--) {
-		if (s.at(endPos) != '\t' && s.at(endPos) != ' ')
-			break;
-	}
-	return s.substr(startPos, endPos + 1 - startPos);
-}
-
-std::string shortenWhitespace(const std::string& s) {
-	std::string res;
-	bool inWhitespace = false;
-	bool inText = false;
-	
-	for (int i = 0; i < s.length(); i++) {
-		char ch = s[i];
-		if (ch == '\'') {
-			inText = !inText;
-			if(inWhitespace)
-				res += " ";
-			inWhitespace = false;
-		}
-		if (inText) {
-			res += ch;
-			if (ch == '\\') {
-				i++;
-				res += s[i];
-				continue;
-			}
-			continue;
-		}
-		
-		if (ch == '\t' || ch == ' ')
-			inWhitespace = true;
-		else if (inWhitespace) {
-			inWhitespace = false;
-			res += " ";
-			res += ch;
-		} else {
-			res += ch;
-		}
-	}
-	
-	return res;
-}
-
-std::string reformatText(const std::string& s) {
-	std::string result = s;
-	unsigned long long int replacePos = result.find("\\n");
-	while (replacePos != std::string::npos) {
-		result = result.replace(replacePos, 2, "\n");
-		replacePos = result.find("\\n", replacePos);
-	}
-	
-	replacePos = result.find("\\t");
-	while (replacePos != std::string::npos) {
-		result = result.replace(replacePos, 2, "\t");
-		replacePos = result.find("\\t", replacePos);
-	}
-	
-	replacePos = result.find("\\\\");
-	while (replacePos != std::string::npos) {
-		result = result.replace(replacePos, 2, "\\");
-		replacePos = result.find("\\\\", replacePos);
-	}
-
-	replacePos = result.find("\\'");
-	while (replacePos != std::string::npos) {
-		result = result.replace(replacePos, 2, "'");
-		replacePos = result.find("\\'", replacePos);
-	}
-	
-	return result;
-}
-
-bool startsWith(const std::string& s, const std::string& test) {
-	if (test.length() > s.length())
-		return false;
-	for (int i = 0; i < test.length(); i++) {
-		if (s[i] != test[i])
-			return false;
-	}
-	return true;
 }

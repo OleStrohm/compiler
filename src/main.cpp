@@ -1,7 +1,7 @@
 #include <iostream>
 #include <ctime>
 #include "tokenizer/tokenizer.h"
-#include "syntax/CFG.h"
+#include "syntax/contextFreeGrammar.h"
 
 std::string visualizeWhitespaceAndFormat(const std::string& s);
 
@@ -27,10 +27,8 @@ int main() {
 #endif
 
 #if TEST_SYNTAXIZER
-	CFG contextFreeGrammar("context_free.grammar");
-
-
-
+	contextFreeGrammar contextFreeGrammar("context_free.grammar");
+	
 #endif
 	
 	return 0;
