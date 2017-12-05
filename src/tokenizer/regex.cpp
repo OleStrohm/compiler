@@ -26,7 +26,7 @@ Regex::Regex(const std::string& path) {
 		} else if (!lines.empty() && !(line[line.length() - 1] == '>' || line[line.length() - 1] == ':') && !(lines[lines.size() - 1][lines[lines.size() - 1].length() - 1] == '>' || lines[lines.size() - 1][lines[lines.size() - 1].length() - 1] == ':')) {
 			lines[lines.size() - 1] = lines[lines.size() - 1] + " | " + line;
 		} else {
-			lines.emplace_back(line);
+			lines.push_back(line);
 		}
 	}
 	

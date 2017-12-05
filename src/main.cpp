@@ -1,10 +1,15 @@
 #include <iostream>
 #include <ctime>
 #include "tokenizer/tokenizer.h"
+#include "syntax/CFG.h"
 
 std::string visualizeWhitespaceAndFormat(const std::string& s);
 
+#define TEST_TOKENIZER 0
+#define TEST_SYNTAXIZER 1
+
 int main() {
+#if TEST_TOKENIZER
 	std::string text = "float x = -.5f\n"
 			"			string potet    = \"quote: \\\"I have a dream!\\\"\";";
 	std::cout << std::endl;
@@ -19,8 +24,14 @@ int main() {
 		printf("%-11s  |  %s\n", token.type.c_str(), visualizeWhitespaceAndFormat(token.text).c_str());
 	
 	std::cout << std::endl << "Time used: " << (clock() - time0) / (float) CLOCKS_PER_SEC << "ms" << std::endl;
-	
-	
+#endif
+
+#if TEST_SYNTAXIZER
+	CFG contextFreeGrammar("context_free.grammar");
+
+
+
+#endif
 	
 	return 0;
 }

@@ -1,3 +1,4 @@
+# The letters of the alphabet
 letter:
 	'a'
 	'b'
@@ -51,6 +52,11 @@ letter:
 	'Y'
 	'Z'
 
+# Escape characters for the String literal
+escapeCharacter:
+	'\\' ('0' | 'n' | 't' | '"' | '\\')
+
+# The digits
 number:
 	'0'
 	'1'
@@ -63,6 +69,7 @@ number:
 	'8'
 	'9'
 
+# Keywords in the language
 keyword>
 	'unsigned'
 	'long'
@@ -83,9 +90,11 @@ keyword>
 	'implicit'
 	'const'
 
+# The name of a variable, class or function
 identifier>
 	('_' | letter) ('_' | letter | number)*
 
+# Operators like +, - and more special operators such as modulo (%) and the parts of the ternary operator (X ? Y : Z), also assignment
 operator>
 	'+'
 	'-'
@@ -115,6 +124,7 @@ operator>
 	'.'
 	'->'
 
+# Separators such as parentheses and the might semicolon
 separator>
 	'('
 	')'
@@ -125,15 +135,15 @@ separator>
 	','
 	';'
 
+# String Literal (hence the 's' suffix)
 literals>
 	'"' ('_' | '-' | '+' | '*' | '?' | '^' | '`' | '~' | '|' | '@' | '$' | '&' | '{' | '[' | ']' | '}' | '(' | ')' | ',' | ':' | '.' | '%' | '`' | '\'' | '!' | '$' | escapeCharacter | letter | number | whitespace)* '"'
 
+# Number literal (hence the 'n' suffix)
 literaln>
 	('+' | '-')? (number+ ('.' number+)? | ('.' number+)) (('F' | 'f') | ('E' | 'e') ('+' | '-')? number+)?
 
+# Pure whitespace
 whitespace>
     ('\t' | ' ' | '\n')*
-
-escapeCharacter:
-	'\\' ('0' | 'n' | 't' | '"' | '\\')
 
