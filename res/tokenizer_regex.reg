@@ -63,6 +63,7 @@ number:
 	'8'
 	'9'
 
+
 keyword>
 	'unsigned'
 	'long'
@@ -82,6 +83,10 @@ keyword>
 	'return'
 	'implicit'
 	'const'
+	'public'
+	'private'
+	'protected'
+	'class'
 
 identifier>
 	('_' | letter) ('_' | letter | number)*
