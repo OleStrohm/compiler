@@ -6,7 +6,7 @@
 #include <vector>
 #include <iostream>
 #include "regex.h"
-#include "automata.h"
+#include "automaton.h"
 #include "../util/util.h"
 
 Automaton createAutomaton(const std::vector<std::string>& lines, const std::string& name);

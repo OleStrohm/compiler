@@ -3,7 +3,7 @@
 //
 
 #include <iostream>
-#include "automata.h"
+#include "automaton.h"
 
 Automaton Automaton::nullAutomaton("null");
 

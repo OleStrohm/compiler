@@ -27,7 +27,7 @@ int main() {
 #endif
 
 #if TEST_SYNTAXIZER
-	contextFreeGrammar contextFreeGrammar("context_free.grammar");
+	CFG contextFreeGrammar("context_free.grammar");
 	
 #endif
 	
@@ -36,19 +36,19 @@ int main() {
 
 std::string visualizeWhitespaceAndFormat(const std::string& s) {
 	std::string res;
-	bool stringliteral = s[0] == '"';
+	bool isStringLiteral = s[0] == '"';
 	bool foundBackslash = false;
 	for (char ch : s) {
-		if (ch == ' ' && !stringliteral) {
+		if (ch == ' ' && !isStringLiteral) {
 			res += "\\s";
 			foundBackslash = false;
-		} else if (ch == '\n' && !stringliteral) {
+		} else if (ch == '\n' && !isStringLiteral) {
 			res += "\\n";
 			foundBackslash = false;
-		} else if (ch == '\t' && !stringliteral) {
+		} else if (ch == '\t' && !isStringLiteral) {
 			res += "\\t";
 			foundBackslash = false;
-		} else if (ch == '\\' && stringliteral && !foundBackslash) {
+		} else if (ch == '\\' && isStringLiteral && !foundBackslash) {
 			foundBackslash = true;
 			continue;
 		} else {

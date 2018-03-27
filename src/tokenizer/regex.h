@@ -6,7 +6,7 @@
 
 #include <string>
 #include <utility>
-#include "automata.h"
+#include "automaton.h"
 #include "token.h"
 
 class Regex {
