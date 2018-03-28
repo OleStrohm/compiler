@@ -35,7 +35,7 @@ CFG::CFG(std::string filepath) {
 				lastLine += " " + util::trim(line.substr(1));
 			}
 		}
-	}
+	}2
 
 	for(auto& line : lines)
 		std::cout << line << std::endl;
