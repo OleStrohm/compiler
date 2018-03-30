@@ -27,7 +27,10 @@ int main() {
 #endif
 
 #if TEST_SYNTAXIZER
-	CFG contextFreeGrammar("context_free.grammar");
+	CFG grammar("context_free.grammar");
+	
+	
+	grammar.derive("I + I + I + I");
 	
 #endif
 	

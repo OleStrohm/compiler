@@ -1,4 +1,6 @@
+S
+E:
+	| I + S
 S:
-    AA
-A:
-    a | b
+	| I + S
+	| I
