@@ -1,7 +1,7 @@
-set(CMAKE_C_COMPILER "C:/Program Files/mingw-w64/x86_64-7.2.0-win32-seh-rt_v5-rev0/mingw64/bin/gcc.exe")
+set(CMAKE_C_COMPILER "D:/Programs/mingw-w64/x86_64-7.3.0-win32-seh-rt_v5-rev0/mingw64/bin/gcc.exe")
 set(CMAKE_C_COMPILER_ARG1 "")
 set(CMAKE_C_COMPILER_ID "GNU")
-set(CMAKE_C_COMPILER_VERSION "7.2.0")
+set(CMAKE_C_COMPILER_VERSION "7.3.0")
 set(CMAKE_C_COMPILER_VERSION_INTERNAL "")
 set(CMAKE_C_COMPILER_WRAPPER "")
 set(CMAKE_C_STANDARD_COMPUTED_DEFAULT "11")
@@ -16,11 +16,11 @@ set(CMAKE_C_SIMULATE_VERSION "")
 
 
 
-set(CMAKE_AR "C:/Program Files/mingw-w64/x86_64-7.2.0-win32-seh-rt_v5-rev0/mingw64/bin/ar.exe")
-set(CMAKE_C_COMPILER_AR "C:/Program Files/mingw-w64/x86_64-7.2.0-win32-seh-rt_v5-rev0/mingw64/bin/gcc-ar.exe")
-set(CMAKE_RANLIB "C:/Program Files/mingw-w64/x86_64-7.2.0-win32-seh-rt_v5-rev0/mingw64/bin/ranlib.exe")
-set(CMAKE_C_COMPILER_RANLIB "C:/Program Files/mingw-w64/x86_64-7.2.0-win32-seh-rt_v5-rev0/mingw64/bin/gcc-ranlib.exe")
-set(CMAKE_LINKER "C:/Program Files/mingw-w64/x86_64-7.2.0-win32-seh-rt_v5-rev0/mingw64/bin/ld.exe")
+set(CMAKE_AR "D:/Programs/mingw-w64/x86_64-7.3.0-win32-seh-rt_v5-rev0/mingw64/bin/ar.exe")
+set(CMAKE_C_COMPILER_AR "D:/Programs/mingw-w64/x86_64-7.3.0-win32-seh-rt_v5-rev0/mingw64/bin/gcc-ar.exe")
+set(CMAKE_RANLIB "D:/Programs/mingw-w64/x86_64-7.3.0-win32-seh-rt_v5-rev0/mingw64/bin/ranlib.exe")
+set(CMAKE_C_COMPILER_RANLIB "D:/Programs/mingw-w64/x86_64-7.3.0-win32-seh-rt_v5-rev0/mingw64/bin/gcc-ranlib.exe")
+set(CMAKE_LINKER "D:/Programs/mingw-w64/x86_64-7.3.0-win32-seh-rt_v5-rev0/mingw64/bin/ld.exe")
 set(CMAKE_COMPILER_IS_GNUCC 1)
 set(CMAKE_C_COMPILER_LOADED 1)
 set(CMAKE_C_COMPILER_WORKS TRUE)
@@ -69,5 +69,5 @@ endif()
 
 
 set(CMAKE_C_IMPLICIT_LINK_LIBRARIES "mingw32;gcc;moldname;mingwex;advapi32;shell32;user32;kernel32;iconv;mingw32;gcc;moldname;mingwex")
-set(CMAKE_C_IMPLICIT_LINK_DIRECTORIES "C:/Program Files/mingw-w64/x86_64-7.2.0-win32-seh-rt_v5-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/7.2.0;C:/Program Files/mingw-w64/x86_64-7.2.0-win32-seh-rt_v5-rev0/mingw64/lib/gcc;C:/Program Files/mingw-w64/x86_64-7.2.0-win32-seh-rt_v5-rev0/mingw64/x86_64-w64-mingw32/lib;C:/Program Files/mingw-w64/x86_64-7.2.0-win32-seh-rt_v5-rev0/mingw64/lib")
+set(CMAKE_C_IMPLICIT_LINK_DIRECTORIES "D:/Programs/mingw-w64/x86_64-7.3.0-win32-seh-rt_v5-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/7.3.0;D:/Programs/mingw-w64/x86_64-7.3.0-win32-seh-rt_v5-rev0/mingw64/lib/gcc;D:/Programs/mingw-w64/x86_64-7.3.0-win32-seh-rt_v5-rev0/mingw64/x86_64-w64-mingw32/lib;D:/Programs/mingw-w64/x86_64-7.3.0-win32-seh-rt_v5-rev0/mingw64/lib")
 set(CMAKE_C_IMPLICIT_LINK_FRAMEWORK_DIRECTORIES "")

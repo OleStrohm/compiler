@@ -33,19 +33,19 @@ cmake_force:
 SHELL = cmd.exe
 
 # The CMake executable.
-CMAKE_COMMAND = "D:\programs\CLion 2017.3.4\bin\cmake\bin\cmake.exe"
+CMAKE_COMMAND = "D:\Programs\CLion 2018.1\bin\cmake\bin\cmake.exe"
 
 # The command to remove a file.
-RM = "D:\programs\CLion 2017.3.4\bin\cmake\bin\cmake.exe" -E remove -f
+RM = "D:\Programs\CLion 2018.1\bin\cmake\bin\cmake.exe" -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "D:\workspace_programming\Workspace C++\CL projects\compiler"
+CMAKE_SOURCE_DIR = D:\Programming\C++\compiler
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "D:\workspace_programming\Workspace C++\CL projects\compiler\cmake-build-release"
+CMAKE_BINARY_DIR = D:\Programming\C++\compiler\cmake-build-release
 
 # Include any dependencies generated for this target.
 include CMakeFiles/Compiler.dir/depend.make
@@ -58,16 +58,16 @@ include CMakeFiles/Compiler.dir/flags.make
 
 CMakeFiles/Compiler.dir/src/main.cpp.obj: CMakeFiles/Compiler.dir/flags.make
 CMakeFiles/Compiler.dir/src/main.cpp.obj: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="D:\workspace_programming\Workspace C++\CL projects\compiler\cmake-build-release\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Compiler.dir/src/main.cpp.obj"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-W\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Compiler.dir\src\main.cpp.obj -c "D:\workspace_programming\Workspace C++\CL projects\compiler\src\main.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\Programming\C++\compiler\cmake-build-release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Compiler.dir/src/main.cpp.obj"
+	D:\Programs\mingw-w64\x86_64-7.3.0-win32-seh-rt_v5-rev0\mingw64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Compiler.dir\src\main.cpp.obj -c D:\Programming\C++\compiler\src\main.cpp
 
 CMakeFiles/Compiler.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Compiler.dir/src/main.cpp.i"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-W\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "D:\workspace_programming\Workspace C++\CL projects\compiler\src\main.cpp" > CMakeFiles\Compiler.dir\src\main.cpp.i
+	D:\Programs\mingw-w64\x86_64-7.3.0-win32-seh-rt_v5-rev0\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Programming\C++\compiler\src\main.cpp > CMakeFiles\Compiler.dir\src\main.cpp.i
 
 CMakeFiles/Compiler.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Compiler.dir/src/main.cpp.s"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-W\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "D:\workspace_programming\Workspace C++\CL projects\compiler\src\main.cpp" -o CMakeFiles\Compiler.dir\src\main.cpp.s
+	D:\Programs\mingw-w64\x86_64-7.3.0-win32-seh-rt_v5-rev0\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Programming\C++\compiler\src\main.cpp -o CMakeFiles\Compiler.dir\src\main.cpp.s
 
 CMakeFiles/Compiler.dir/src/main.cpp.obj.requires:
 
@@ -82,16 +82,16 @@ CMakeFiles/Compiler.dir/src/main.cpp.obj.provides.build: CMakeFiles/Compiler.dir
 
 CMakeFiles/Compiler.dir/src/tokenizer/node.cpp.obj: CMakeFiles/Compiler.dir/flags.make
 CMakeFiles/Compiler.dir/src/tokenizer/node.cpp.obj: ../src/tokenizer/node.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="D:\workspace_programming\Workspace C++\CL projects\compiler\cmake-build-release\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Compiler.dir/src/tokenizer/node.cpp.obj"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-W\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Compiler.dir\src\tokenizer\node.cpp.obj -c "D:\workspace_programming\Workspace C++\CL projects\compiler\src\tokenizer\node.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\Programming\C++\compiler\cmake-build-release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Compiler.dir/src/tokenizer/node.cpp.obj"
+	D:\Programs\mingw-w64\x86_64-7.3.0-win32-seh-rt_v5-rev0\mingw64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Compiler.dir\src\tokenizer\node.cpp.obj -c D:\Programming\C++\compiler\src\tokenizer\node.cpp
 
 CMakeFiles/Compiler.dir/src/tokenizer/node.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Compiler.dir/src/tokenizer/node.cpp.i"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-W\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "D:\workspace_programming\Workspace C++\CL projects\compiler\src\tokenizer\node.cpp" > CMakeFiles\Compiler.dir\src\tokenizer\node.cpp.i
+	D:\Programs\mingw-w64\x86_64-7.3.0-win32-seh-rt_v5-rev0\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Programming\C++\compiler\src\tokenizer\node.cpp > CMakeFiles\Compiler.dir\src\tokenizer\node.cpp.i
 
 CMakeFiles/Compiler.dir/src/tokenizer/node.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Compiler.dir/src/tokenizer/node.cpp.s"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-W\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "D:\workspace_programming\Workspace C++\CL projects\compiler\src\tokenizer\node.cpp" -o CMakeFiles\Compiler.dir\src\tokenizer\node.cpp.s
+	D:\Programs\mingw-w64\x86_64-7.3.0-win32-seh-rt_v5-rev0\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Programming\C++\compiler\src\tokenizer\node.cpp -o CMakeFiles\Compiler.dir\src\tokenizer\node.cpp.s
 
 CMakeFiles/Compiler.dir/src/tokenizer/node.cpp.obj.requires:
 
@@ -106,16 +106,16 @@ CMakeFiles/Compiler.dir/src/tokenizer/node.cpp.obj.provides.build: CMakeFiles/Co
 
 CMakeFiles/Compiler.dir/src/tokenizer/automaton.cpp.obj: CMakeFiles/Compiler.dir/flags.make
 CMakeFiles/Compiler.dir/src/tokenizer/automaton.cpp.obj: ../src/tokenizer/automaton.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="D:\workspace_programming\Workspace C++\CL projects\compiler\cmake-build-release\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Compiler.dir/src/tokenizer/automaton.cpp.obj"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-W\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Compiler.dir\src\tokenizer\automaton.cpp.obj -c "D:\workspace_programming\Workspace C++\CL projects\compiler\src\tokenizer\automaton.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\Programming\C++\compiler\cmake-build-release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Compiler.dir/src/tokenizer/automaton.cpp.obj"
+	D:\Programs\mingw-w64\x86_64-7.3.0-win32-seh-rt_v5-rev0\mingw64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Compiler.dir\src\tokenizer\automaton.cpp.obj -c D:\Programming\C++\compiler\src\tokenizer\automaton.cpp
 
 CMakeFiles/Compiler.dir/src/tokenizer/automaton.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Compiler.dir/src/tokenizer/automaton.cpp.i"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-W\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "D:\workspace_programming\Workspace C++\CL projects\compiler\src\tokenizer\automaton.cpp" > CMakeFiles\Compiler.dir\src\tokenizer\automaton.cpp.i
+	D:\Programs\mingw-w64\x86_64-7.3.0-win32-seh-rt_v5-rev0\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Programming\C++\compiler\src\tokenizer\automaton.cpp > CMakeFiles\Compiler.dir\src\tokenizer\automaton.cpp.i
 
 CMakeFiles/Compiler.dir/src/tokenizer/automaton.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Compiler.dir/src/tokenizer/automaton.cpp.s"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-W\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "D:\workspace_programming\Workspace C++\CL projects\compiler\src\tokenizer\automaton.cpp" -o CMakeFiles\Compiler.dir\src\tokenizer\automaton.cpp.s
+	D:\Programs\mingw-w64\x86_64-7.3.0-win32-seh-rt_v5-rev0\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Programming\C++\compiler\src\tokenizer\automaton.cpp -o CMakeFiles\Compiler.dir\src\tokenizer\automaton.cpp.s
 
 CMakeFiles/Compiler.dir/src/tokenizer/automaton.cpp.obj.requires:
 
@@ -130,16 +130,16 @@ CMakeFiles/Compiler.dir/src/tokenizer/automaton.cpp.obj.provides.build: CMakeFil
 
 CMakeFiles/Compiler.dir/src/tokenizer/regex.cpp.obj: CMakeFiles/Compiler.dir/flags.make
 CMakeFiles/Compiler.dir/src/tokenizer/regex.cpp.obj: ../src/tokenizer/regex.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="D:\workspace_programming\Workspace C++\CL projects\compiler\cmake-build-release\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Compiler.dir/src/tokenizer/regex.cpp.obj"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-W\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Compiler.dir\src\tokenizer\regex.cpp.obj -c "D:\workspace_programming\Workspace C++\CL projects\compiler\src\tokenizer\regex.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\Programming\C++\compiler\cmake-build-release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Compiler.dir/src/tokenizer/regex.cpp.obj"
+	D:\Programs\mingw-w64\x86_64-7.3.0-win32-seh-rt_v5-rev0\mingw64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Compiler.dir\src\tokenizer\regex.cpp.obj -c D:\Programming\C++\compiler\src\tokenizer\regex.cpp
 
 CMakeFiles/Compiler.dir/src/tokenizer/regex.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Compiler.dir/src/tokenizer/regex.cpp.i"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-W\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "D:\workspace_programming\Workspace C++\CL projects\compiler\src\tokenizer\regex.cpp" > CMakeFiles\Compiler.dir\src\tokenizer\regex.cpp.i
+	D:\Programs\mingw-w64\x86_64-7.3.0-win32-seh-rt_v5-rev0\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Programming\C++\compiler\src\tokenizer\regex.cpp > CMakeFiles\Compiler.dir\src\tokenizer\regex.cpp.i
 
 CMakeFiles/Compiler.dir/src/tokenizer/regex.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Compiler.dir/src/tokenizer/regex.cpp.s"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-W\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "D:\workspace_programming\Workspace C++\CL projects\compiler\src\tokenizer\regex.cpp" -o CMakeFiles\Compiler.dir\src\tokenizer\regex.cpp.s
+	D:\Programs\mingw-w64\x86_64-7.3.0-win32-seh-rt_v5-rev0\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Programming\C++\compiler\src\tokenizer\regex.cpp -o CMakeFiles\Compiler.dir\src\tokenizer\regex.cpp.s
 
 CMakeFiles/Compiler.dir/src/tokenizer/regex.cpp.obj.requires:
 
@@ -154,16 +154,16 @@ CMakeFiles/Compiler.dir/src/tokenizer/regex.cpp.obj.provides.build: CMakeFiles/C
 
 CMakeFiles/Compiler.dir/src/tokenizer/tokenizer.cpp.obj: CMakeFiles/Compiler.dir/flags.make
 CMakeFiles/Compiler.dir/src/tokenizer/tokenizer.cpp.obj: ../src/tokenizer/tokenizer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="D:\workspace_programming\Workspace C++\CL projects\compiler\cmake-build-release\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Compiler.dir/src/tokenizer/tokenizer.cpp.obj"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-W\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Compiler.dir\src\tokenizer\tokenizer.cpp.obj -c "D:\workspace_programming\Workspace C++\CL projects\compiler\src\tokenizer\tokenizer.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\Programming\C++\compiler\cmake-build-release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Compiler.dir/src/tokenizer/tokenizer.cpp.obj"
+	D:\Programs\mingw-w64\x86_64-7.3.0-win32-seh-rt_v5-rev0\mingw64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Compiler.dir\src\tokenizer\tokenizer.cpp.obj -c D:\Programming\C++\compiler\src\tokenizer\tokenizer.cpp
 
 CMakeFiles/Compiler.dir/src/tokenizer/tokenizer.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Compiler.dir/src/tokenizer/tokenizer.cpp.i"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-W\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "D:\workspace_programming\Workspace C++\CL projects\compiler\src\tokenizer\tokenizer.cpp" > CMakeFiles\Compiler.dir\src\tokenizer\tokenizer.cpp.i
+	D:\Programs\mingw-w64\x86_64-7.3.0-win32-seh-rt_v5-rev0\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Programming\C++\compiler\src\tokenizer\tokenizer.cpp > CMakeFiles\Compiler.dir\src\tokenizer\tokenizer.cpp.i
 
 CMakeFiles/Compiler.dir/src/tokenizer/tokenizer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Compiler.dir/src/tokenizer/tokenizer.cpp.s"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-W\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "D:\workspace_programming\Workspace C++\CL projects\compiler\src\tokenizer\tokenizer.cpp" -o CMakeFiles\Compiler.dir\src\tokenizer\tokenizer.cpp.s
+	D:\Programs\mingw-w64\x86_64-7.3.0-win32-seh-rt_v5-rev0\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Programming\C++\compiler\src\tokenizer\tokenizer.cpp -o CMakeFiles\Compiler.dir\src\tokenizer\tokenizer.cpp.s
 
 CMakeFiles/Compiler.dir/src/tokenizer/tokenizer.cpp.obj.requires:
 
@@ -178,16 +178,16 @@ CMakeFiles/Compiler.dir/src/tokenizer/tokenizer.cpp.obj.provides.build: CMakeFil
 
 CMakeFiles/Compiler.dir/src/syntax/contextFreeGrammar.cpp.obj: CMakeFiles/Compiler.dir/flags.make
 CMakeFiles/Compiler.dir/src/syntax/contextFreeGrammar.cpp.obj: ../src/syntax/contextFreeGrammar.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="D:\workspace_programming\Workspace C++\CL projects\compiler\cmake-build-release\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Compiler.dir/src/syntax/contextFreeGrammar.cpp.obj"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-W\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Compiler.dir\src\syntax\contextFreeGrammar.cpp.obj -c "D:\workspace_programming\Workspace C++\CL projects\compiler\src\syntax\contextFreeGrammar.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\Programming\C++\compiler\cmake-build-release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Compiler.dir/src/syntax/contextFreeGrammar.cpp.obj"
+	D:\Programs\mingw-w64\x86_64-7.3.0-win32-seh-rt_v5-rev0\mingw64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Compiler.dir\src\syntax\contextFreeGrammar.cpp.obj -c D:\Programming\C++\compiler\src\syntax\contextFreeGrammar.cpp
 
 CMakeFiles/Compiler.dir/src/syntax/contextFreeGrammar.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Compiler.dir/src/syntax/contextFreeGrammar.cpp.i"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-W\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "D:\workspace_programming\Workspace C++\CL projects\compiler\src\syntax\contextFreeGrammar.cpp" > CMakeFiles\Compiler.dir\src\syntax\contextFreeGrammar.cpp.i
+	D:\Programs\mingw-w64\x86_64-7.3.0-win32-seh-rt_v5-rev0\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Programming\C++\compiler\src\syntax\contextFreeGrammar.cpp > CMakeFiles\Compiler.dir\src\syntax\contextFreeGrammar.cpp.i
 
 CMakeFiles/Compiler.dir/src/syntax/contextFreeGrammar.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Compiler.dir/src/syntax/contextFreeGrammar.cpp.s"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-W\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "D:\workspace_programming\Workspace C++\CL projects\compiler\src\syntax\contextFreeGrammar.cpp" -o CMakeFiles\Compiler.dir\src\syntax\contextFreeGrammar.cpp.s
+	D:\Programs\mingw-w64\x86_64-7.3.0-win32-seh-rt_v5-rev0\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Programming\C++\compiler\src\syntax\contextFreeGrammar.cpp -o CMakeFiles\Compiler.dir\src\syntax\contextFreeGrammar.cpp.s
 
 CMakeFiles/Compiler.dir/src/syntax/contextFreeGrammar.cpp.obj.requires:
 
@@ -202,16 +202,16 @@ CMakeFiles/Compiler.dir/src/syntax/contextFreeGrammar.cpp.obj.provides.build: CM
 
 CMakeFiles/Compiler.dir/src/util/util.cpp.obj: CMakeFiles/Compiler.dir/flags.make
 CMakeFiles/Compiler.dir/src/util/util.cpp.obj: ../src/util/util.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="D:\workspace_programming\Workspace C++\CL projects\compiler\cmake-build-release\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Compiler.dir/src/util/util.cpp.obj"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-W\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Compiler.dir\src\util\util.cpp.obj -c "D:\workspace_programming\Workspace C++\CL projects\compiler\src\util\util.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\Programming\C++\compiler\cmake-build-release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Compiler.dir/src/util/util.cpp.obj"
+	D:\Programs\mingw-w64\x86_64-7.3.0-win32-seh-rt_v5-rev0\mingw64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Compiler.dir\src\util\util.cpp.obj -c D:\Programming\C++\compiler\src\util\util.cpp
 
 CMakeFiles/Compiler.dir/src/util/util.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Compiler.dir/src/util/util.cpp.i"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-W\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "D:\workspace_programming\Workspace C++\CL projects\compiler\src\util\util.cpp" > CMakeFiles\Compiler.dir\src\util\util.cpp.i
+	D:\Programs\mingw-w64\x86_64-7.3.0-win32-seh-rt_v5-rev0\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Programming\C++\compiler\src\util\util.cpp > CMakeFiles\Compiler.dir\src\util\util.cpp.i
 
 CMakeFiles/Compiler.dir/src/util/util.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Compiler.dir/src/util/util.cpp.s"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-W\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "D:\workspace_programming\Workspace C++\CL projects\compiler\src\util\util.cpp" -o CMakeFiles\Compiler.dir\src\util\util.cpp.s
+	D:\Programs\mingw-w64\x86_64-7.3.0-win32-seh-rt_v5-rev0\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Programming\C++\compiler\src\util\util.cpp -o CMakeFiles\Compiler.dir\src\util\util.cpp.s
 
 CMakeFiles/Compiler.dir/src/util/util.cpp.obj.requires:
 
@@ -248,7 +248,7 @@ Compiler.exe: CMakeFiles/Compiler.dir/build.make
 Compiler.exe: CMakeFiles/Compiler.dir/linklibs.rsp
 Compiler.exe: CMakeFiles/Compiler.dir/objects1.rsp
 Compiler.exe: CMakeFiles/Compiler.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="D:\workspace_programming\Workspace C++\CL projects\compiler\cmake-build-release\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable Compiler.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=D:\Programming\C++\compiler\cmake-build-release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable Compiler.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\Compiler.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -271,6 +271,6 @@ CMakeFiles/Compiler.dir/clean:
 .PHONY : CMakeFiles/Compiler.dir/clean
 
 CMakeFiles/Compiler.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" "D:\workspace_programming\Workspace C++\CL projects\compiler" "D:\workspace_programming\Workspace C++\CL projects\compiler" "D:\workspace_programming\Workspace C++\CL projects\compiler\cmake-build-release" "D:\workspace_programming\Workspace C++\CL projects\compiler\cmake-build-release" "D:\workspace_programming\Workspace C++\CL projects\compiler\cmake-build-release\CMakeFiles\Compiler.dir\DependInfo.cmake" --color=$(COLOR)
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" D:\Programming\C++\compiler D:\Programming\C++\compiler D:\Programming\C++\compiler\cmake-build-release D:\Programming\C++\compiler\cmake-build-release D:\Programming\C++\compiler\cmake-build-release\CMakeFiles\Compiler.dir\DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/Compiler.dir/depend
 

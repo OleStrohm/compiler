@@ -1,3 +1,3 @@
-D:/workspace_programming/Workspace C++/CL projects/compiler/cmake-build-release/CMakeFiles/Compiler.dir
-D:/workspace_programming/Workspace C++/CL projects/compiler/cmake-build-release/CMakeFiles/edit_cache.dir
-D:/workspace_programming/Workspace C++/CL projects/compiler/cmake-build-release/CMakeFiles/rebuild_cache.dir
+D:/Programming/C++/compiler/cmake-build-release/CMakeFiles/Compiler.dir
+D:/Programming/C++/compiler/cmake-build-release/CMakeFiles/edit_cache.dir
+D:/Programming/C++/compiler/cmake-build-release/CMakeFiles/rebuild_cache.dir

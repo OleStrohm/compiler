@@ -43,19 +43,23 @@ CFG::CFG(std::string filepath) {
 	std::cout << "Rules end" << std::endl << std::endl;
 }
 
-bool CFG::deriveStep(std::string text, std::vector<DerivationNode> nodes) {
-	if(nodes.size() > 3) // TODO: Guess once.
+bool CFG::deriveStep(std::string parseText, std::vector<DerivationNode> nodes) {
+	if(nodes.size() > 100) // TODO: Guess once.
 		return false;
-	std::cout << "Current nodes:" << std::endl;
+	std::cout << "Current nodes (" << nodes.size() << "):" << std::endl;
 	for (auto& node : nodes) {
-		std::cout << node.value << " (" << (node.isTerminating ? "Terminating)" : "Not terminating)") << std::endl;
+		std::cout << "'" << node.value << "'" << (node.isTerminating ? " (T)" : "") << std::endl;
 	}
 	std::cout << "End of nodes" << std::endl;
 	
 	for(int i = 0; i < nodes.size(); i++) {
 		if(!nodes[i].isTerminating) {
 			for(int j = 0; j < rules.size(); j++) {
+			    if(rules[j].parent != nodes[i].value)
+                    continue;
 				std::vector<DerivationNode> newNodes = nodes;
+
+				std::string text = rules[j].child;
 				bool inText = false;
 				size_t lastStop = 0;
 				for (size_t i = 0; i < text.size(); i++) {
