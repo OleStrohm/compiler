@@ -19,7 +19,7 @@ public:
 	void tokenize(const std::string& text);
 
 	const std::vector<Token>& getTokens() {
-		tokens;
+		return tokens;
 	}
 };
 
