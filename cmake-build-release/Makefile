@@ -13,11 +13,11 @@ default_target: all
 #=============================================================================
 # Special targets provided by cmake.
 
-# Disable implicit rules so canonical targets will work.
+# Disable implicit expansions so canonical targets will work.
 .SUFFIXES:
 
 
-# Remove some rules from gmake that .SUFFIXES does not remove.
+# Remove some expansions from gmake that .SUFFIXES does not remove.
 SUFFIXES =
 
 .SUFFIXES: .hpux_make_needs_suffix_list
@@ -110,7 +110,7 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named Compiler
+# Target expansions for targets named Compiler
 
 # Build rule for target.
 Compiler: cmake_check_build_system

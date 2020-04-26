@@ -98,5 +98,17 @@ namespace util {
 		}
 		return true;
 	}
+
+	bool isWhitespace(const unsigned char& c) {
+		return c == ' ' || c == '\t' || c == '\n';
+	}
+
+	bool isLetter(const unsigned char& c) {
+		return ('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z');
+	}
+
+	bool isStringStreamEmpty(const std::stringstream& ss) {
+		return ss.rdbuf()->in_avail() == 0;
+	}
 	
 }

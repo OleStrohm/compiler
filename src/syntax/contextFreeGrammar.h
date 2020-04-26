@@ -6,42 +6,36 @@
 
 #include <vector>
 #include <string>
+#include <sstream>
+#include <map>
 
-struct Rule {
-	std::string parent, child;
-	
-	Rule(std::string parent, std::string child)
-			: parent(std::move(parent)), child(std::move(child)) {}
-};
+struct Expansion {
+	std::vector<std::string> expansion;
 
-struct DerivationNode {
-	std::string value;
-	bool isTerminating;
-	
-	DerivationNode(std::string value, bool isTerminating)
-			: value(std::move(value)), isTerminating(isTerminating) {}
+	explicit Expansion(const std::string&);
 };
 
 class CFG {
 private:
 	std::string start;
-	std::vector<Rule> rules;
-	std::vector<std::string> nonTerminatingSymbols;
-	void createRules(std::vector<std::string> lines);
-	
-	inline bool isTerminatingSymbol(std::string s) {
-		for(int i = 0; i < nonTerminatingSymbols.size(); i++) {
-			if(nonTerminatingSymbols[i] == s)
+	std::map<std::string, std::vector<Expansion>> expansions;
+	std::vector<std::string> symbols;
+
+	inline bool isTerminatingSymbol(const std::string& s) {
+		for(int i = 0; i < symbols.size(); i++) { // TODO: Binary search on a ordered list
+			if(symbols[i] == s)
 				return false;
 		}
 		return true;
 	}
-	
-	bool deriveStep(std::string text, std::vector<DerivationNode> nodes);
+
+	void addExpansion(const std::string& parent, const std::string& expansion);
+
+	bool deriveStep(std::vector<std::string> stack, std::vector<std::string> derivation);
 public:
-	CFG(std::string filepath);
-	
-	bool derive(std::string text);
+	explicit CFG(const std::string& filepath);
+
+	bool derive(const std::string& in);
 };
 
 

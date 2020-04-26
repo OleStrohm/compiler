@@ -6,142 +6,92 @@
 
 #include <fstream>
 #include <iostream>
+#include <algorithm>
 #include "../util/util.h"
 
-CFG::CFG(std::string filepath) {
+std::string concatExpansion(const Expansion& expansion) {
+	std::stringstream ss;
+	for(auto& s : expansion.expansion) {
+		ss << s << "|";
+	}
+	std::string res = ss.str();
+	return std::move(res.substr(0, res.length()-1));
+}
+
+Expansion::Expansion(const std::string &expansionString) {
+	std::stringstream ss;
+	for (char c : expansionString) {
+		if (util::isWhitespace(c)) {
+			if (!util::isStringStreamEmpty(ss)) {
+				expansion.push_back(std::move(ss.str())); // TODO: ??
+				ss.str("");
+			}
+			continue;
+		}
+		if (util::isLetter(c)) {
+			ss << c;
+			continue;
+		}
+		if (!util::isStringStreamEmpty(ss)) {
+			expansion.push_back(std::move(ss.str())); // TODO: ??
+			ss.str("");
+		}
+		ss << c;
+		expansion.push_back(std::move(ss.str())); // TODO: ??
+		ss.str("");
+	}
+	if (!util::isStringStreamEmpty(ss)) {
+		expansion.push_back(std::move(ss.str())); // TODO: ??
+		ss.flush();
+	}
+}
+
+CFG::CFG(const std::string &filepath) {
 	std::ifstream file(filepath);
-	std::vector<std::string> lines;
 	std::string line;
+	std::string current;
 	while (std::getline(file, line)) {
 		line = util::trim(line);
-		if (line.empty() || line[0] == '#')  // useless lines / comments
+		if (line.empty() || line[0] == '#')
 			continue;
-		if (line[line.length() - 1] == ':') { // New symbol (well it doesn't technically have to be new but whatever
-			lines.push_back(line);
-		} else if (line[0] == '|') {             // A NEW RULE
-			std::string& lastLine = lines.back();
-			if (lastLine[lastLine.size() - 1] == ':') { // Add it on a new line
-				lines.push_back(util::trim(line.substr(1)));
-			} else {
-				lastLine += " " + line;
+		if (start.empty()) { // First non-empty non-comment line should contain the starting symbol
+			start = std::move(line);
+			continue;
+		}
+		if (line[line.length() - 1] == ':') { // Symbol definitions should have their own line with a colon at the end
+			current = line.substr(0, line.length() - 1);
+			if(std::find(symbols.begin(), symbols.end(), current) == symbols.end())
+				symbols.push_back(current);
+		} else if (line[0] == '|') { // After a symbol definition many lines of expansions can appear with empty/comment lines between
+			if (current.empty()) {
+				std::cerr << "Can't create expansion for non-existing symbol" << std::endl;
+				return;
 			}
-		} else {
-			start = util::trim(line);
+			const std::string expansion = util::trim(line.substr(1));
+//			printf("%s => %s\n", current.c_str(), expansion.c_str()); // debug
+			addExpansion(current, expansion);
 		}
 	}
 
-//	for(auto& line : lines)
-//		std::cout << line << std::endl;
-//	std::cout << "<EOF>" << std::endl << std::endl;
-	
-	createRules(lines);
-	
-	std::cout << "Rules: (Starts at \'" << start << "\')" << std::endl;
-	for (int i = 0; i < rules.size(); i++) {
-		std::cout << "  " << rules[i].parent << " -> " << rules[i].child << std::endl;
-	}
-	std::cout << "Rules end" << std::endl << std::endl;
-}
-
-bool CFG::deriveStep(std::string parseText, std::vector<DerivationNode> nodes) {
-	if(nodes.size() > 100) // TODO: Guess once.
-		return false;
-	std::cout << "Current nodes (" << nodes.size() << "):" << std::endl;
-	for (auto& node : nodes) {
-		std::cout << "'" << node.value << "'" << (node.isTerminating ? " (T)" : "") << std::endl;
-	}
-	std::cout << "End of nodes" << std::endl;
-	
-	for(int i = 0; i < nodes.size(); i++) {
-		if(!nodes[i].isTerminating) {
-			for(int j = 0; j < rules.size(); j++) {
-			    if(rules[j].parent != nodes[i].value)
-                    continue;
-				std::vector<DerivationNode> newNodes = nodes;
-
-				std::string text = rules[j].child;
-				bool inText = false;
-				size_t lastStop = 0;
-				for (size_t i = 0; i < text.size(); i++) {
-					if ((text[i] >= 65 && text[i] <= 90) || (text[i] >= 97 && text[i] <= 122)) {
-						if (!inText) {
-							nodes.emplace_back(text.substr(lastStop, i - lastStop), true);
-							lastStop = i;
-						}
-						inText = true;
-					} else if (inText) {
-						inText = false;
-						
-						nodes.emplace_back(text.substr(lastStop, i - lastStop), isTerminatingSymbol(text.substr(lastStop, i - lastStop)));
-						lastStop = i;
-					}
-				}
-				if (lastStop < text.size() - 1) {
-					nodes.emplace_back(text.substr(lastStop), isTerminatingSymbol(text.substr(lastStop)));
-				}
-				newNodes.erase(newNodes.begin() + i);
-				if(deriveStep(text, newNodes))
-					return true;
-			}
+	std::cout << "Expansions:" << std::endl;
+	for(auto& symbol : symbols) {
+		auto& expansionList = this->expansions[symbol];
+		for(auto& expansion : expansionList) {
+			printf("%s => %s\n", symbol.c_str(), concatExpansion(expansion).c_str());
 		}
 	}
-	
-	// TODO: check if shit actually satisfies the shit or whatevz
-	
-	return false;
+
+	std::cout << "\nStarting with: " << start << std::endl;
 }
 
-bool CFG::derive(std::string text) {
-	std::vector<DerivationNode> nodes;
-	
-	nodes.emplace_back(start, isTerminatingSymbol(start));
-	
-//	bool inText = false; // TODO: I need this
-//	size_t lastStop = 0;
-//	for (size_t i = 0; i < text.size(); i++) {
-//		if ((text[i] >= 65 && text[i] <= 90) || (text[i] >= 97 && text[i] <= 122)) {
-//			if (!inText) {
-//				nodes.emplace_back(text.substr(lastStop, i - lastStop), true);
-//				lastStop = i;
-//			}
-//			inText = true;
-//		} else if (inText) {
-//			inText = false;
-//
-//			nodes.emplace_back(text.substr(lastStop, i - lastStop), isTerminatingSymbol(text.substr(lastStop, i - lastStop)));
-//			lastStop = i;
-//		}
-//	}
-//	if(lastStop < text.size() - 1) {
-//		nodes.emplace_back(text.substr(lastStop), isTerminatingSymbol(text.substr(lastStop)));
-//	}
-	
-	std::cout << "Deriving the tree for: \'" << text << "\'" << std::endl;
-	return deriveStep(text, nodes);
+bool CFG::derive(const std::string& in) {
+
 }
 
-void CFG::createRules(std::vector<std::string> lines) {
-	std::string parent;
-	for (auto& line : lines) {
-		if (line[line.length() - 1] == ':') {
-			parent = line.substr(0, line.length() - 1);
-			bool containsParent = false;
-			for (int i = 0; i < nonTerminatingSymbols.size(); i++) {
-				if (nonTerminatingSymbols[i] == parent) {
-					containsParent = true;
-					break;
-				}
-			}
-			if (!containsParent)
-				nonTerminatingSymbols.push_back(parent);
-		} else {
-			size_t lastOrPos = 0;
-			size_t orPos = 0;
-			while ((orPos = line.find('|', lastOrPos + 1)) != std::string::npos) {
-				rules.emplace_back(parent, util::trim(line.substr(lastOrPos, orPos - lastOrPos)));
-				lastOrPos = orPos + 1;
-			}
-			rules.emplace_back(parent, util::trim(line.substr(lastOrPos)));
-		}
-	}
+bool deriveStep(std::vector<std::string> stack, std::vector<std::string> derivation) {
+	
+}
+
+void CFG::addExpansion(const std::string& parent, const std::string& expansion) {
+	expansions[parent].emplace_back(expansion);
 }

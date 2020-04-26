@@ -1,7 +1,6 @@
-S
+E
 
 E:
-	| I + S
-S:
-#	| I + S
-	| I/U
+| num + num
+| num * num
+| num

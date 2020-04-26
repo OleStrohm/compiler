@@ -5,8 +5,8 @@
 
 std::string visualizeWhitespaceAndFormat(const std::string &s);
 
-#define TEST_TOKENIZER 1
-#define TEST_SYNTAXIZER 0
+#define TEST_TOKENIZER 0
+#define TEST_SYNTAXIZER 1
 
 int main() {
 #if TEST_TOKENIZER
@@ -30,7 +30,7 @@ int main() {
 	CFG grammar("context_free.grammar");
 	
 	
-	grammar.derive("I + I + I + I");
+//	grammar.derive("I + I + I + I");
 
 #endif
 

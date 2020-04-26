@@ -19,11 +19,11 @@ preinstall:
 #=============================================================================
 # Special targets provided by cmake.
 
-# Disable implicit rules so canonical targets will work.
+# Disable implicit expansions so canonical targets will work.
 .SUFFIXES:
 
 
-# Remove some rules from gmake that .SUFFIXES does not remove.
+# Remove some expansions from gmake that .SUFFIXES does not remove.
 SUFFIXES =
 
 .SUFFIXES: .hpux_make_needs_suffix_list
@@ -59,7 +59,7 @@ CMAKE_SOURCE_DIR = D:\Programming\C++\compiler
 CMAKE_BINARY_DIR = D:\Programming\C++\compiler\cmake-build-release
 
 #=============================================================================
-# Target rules for target CMakeFiles/Compiler.dir
+# Target expansions for target CMakeFiles/Compiler.dir
 
 # All Build rule for target.
 CMakeFiles/Compiler.dir/all:

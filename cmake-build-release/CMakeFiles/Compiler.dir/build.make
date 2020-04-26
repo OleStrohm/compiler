@@ -8,11 +8,11 @@
 #=============================================================================
 # Special targets provided by cmake.
 
-# Disable implicit rules so canonical targets will work.
+# Disable implicit expansions so canonical targets will work.
 .SUFFIXES:
 
 
-# Remove some rules from gmake that .SUFFIXES does not remove.
+# Remove some expansions from gmake that .SUFFIXES does not remove.
 SUFFIXES =
 
 .SUFFIXES: .hpux_make_needs_suffix_list
