@@ -2,6 +2,8 @@
 #include <ctime>
 #include "tokenizer/tokenizer.h"
 #include "syntax/contextFreeGrammar.h"
+#include "util/util.h"
+#include "syntax/CFGTree.h"
 
 std::string visualizeWhitespaceAndFormat(const std::string &s);
 
@@ -29,8 +31,24 @@ int main() {
 #if TEST_SYNTAXIZER
 	CFG grammar("context_free.grammar");
 	
-	
-//	grammar.derive("I + I + I + I");
+	std::vector<Expansion> stacktrace;
+//	bool res = grammar.validate("num + num * num", stacktrace);
+	bool res = grammar.validate("num + num * (num + num)", stacktrace);
+	std::cout << "Validation: " << (res ? "PASSED" : "FAILED") << std::endl;
+
+	std::vector<Expansion> stacktrace_rev = util::reverse<Expansion>(stacktrace);
+
+	if(!stacktrace_rev.empty()) {
+		std::cout << "Stack trace:" << std::endl;
+		for (auto &e : stacktrace_rev) {
+			std::cout << "\t" << e << std::endl;
+		}
+	}
+
+	std::cout << std::endl << "CFG parse tree:" << std::endl;
+	CFGTree* tree = CFGTree::generateTree(stacktrace_rev);
+	TreeDisplayer display = tree->printTree();
+	display.show();
 
 #endif
 

@@ -9,43 +9,6 @@
 #include <algorithm>
 #include "../util/util.h"
 
-std::string concatExpansion(const Expansion& expansion) {
-	std::stringstream ss;
-	for(auto& s : expansion.expansion) {
-		ss << s << "|";
-	}
-	std::string res = ss.str();
-	return std::move(res.substr(0, res.length()-1));
-}
-
-Expansion::Expansion(const std::string &expansionString) {
-	std::stringstream ss;
-	for (char c : expansionString) {
-		if (util::isWhitespace(c)) {
-			if (!util::isStringStreamEmpty(ss)) {
-				expansion.push_back(std::move(ss.str())); // TODO: ??
-				ss.str("");
-			}
-			continue;
-		}
-		if (util::isLetter(c)) {
-			ss << c;
-			continue;
-		}
-		if (!util::isStringStreamEmpty(ss)) {
-			expansion.push_back(std::move(ss.str())); // TODO: ??
-			ss.str("");
-		}
-		ss << c;
-		expansion.push_back(std::move(ss.str())); // TODO: ??
-		ss.str("");
-	}
-	if (!util::isStringStreamEmpty(ss)) {
-		expansion.push_back(std::move(ss.str())); // TODO: ??
-		ss.flush();
-	}
-}
-
 CFG::CFG(const std::string &filepath) {
 	std::ifstream file(filepath);
 	std::string line;
@@ -60,11 +23,13 @@ CFG::CFG(const std::string &filepath) {
 		}
 		if (line[line.length() - 1] == ':') { // Symbol definitions should have their own line with a colon at the end
 			current = line.substr(0, line.length() - 1);
-			if(std::find(symbols.begin(), symbols.end(), current) == symbols.end())
-				symbols.push_back(current);
-		} else if (line[0] == '|') { // After a symbol definition many lines of expansions can appear with empty/comment lines between
+			if (std::find(nonTerminatingSymbols.begin(), nonTerminatingSymbols.end(), current) ==
+				nonTerminatingSymbols.end())
+				nonTerminatingSymbols.push_back(current);
+		} else if (line[0] ==
+				   '|') { // After a symbol definition many lines of expansions can appear with empty/comment lines between
 			if (current.empty()) {
-				std::cerr << "Can't create expansion for non-existing symbol" << std::endl;
+				std::cerr << "Can't create nonTerminatingSymbols for non-existing symbol" << std::endl;
 				return;
 			}
 			const std::string expansion = util::trim(line.substr(1));
@@ -73,25 +38,70 @@ CFG::CFG(const std::string &filepath) {
 		}
 	}
 
+	std::cout << "Starting with: " << start << std::endl;
 	std::cout << "Expansions:" << std::endl;
-	for(auto& symbol : symbols) {
-		auto& expansionList = this->expansions[symbol];
-		for(auto& expansion : expansionList) {
-			printf("%s => %s\n", symbol.c_str(), concatExpansion(expansion).c_str());
+	for (auto &symbol : nonTerminatingSymbols) {
+		auto &expansionList = this->expansions[symbol];
+		for (auto &expansion : expansionList) {
+			std::cout << "  " << expansion << std::endl;
 		}
 	}
 
-	std::cout << "\nStarting with: " << start << std::endl;
 }
 
-bool CFG::derive(const std::string& in) {
-
+bool CFG::validate(const std::string &in, std::vector<Expansion>& stacktrace) {
+	Expansion stack(start, in);
+	std::vector<std::string> derivation;
+	derivation.push_back(start);
+	std::cout << std::endl << "Validating: '" << in << "'" << std::endl;
+	return validateStep(stack.symbols, derivation, stacktrace);
 }
 
-bool deriveStep(std::vector<std::string> stack, std::vector<std::string> derivation) {
-	
+bool CFG::validateStep(std::vector<std::string> stack, std::vector<std::string> derivation,
+					   std::vector<Expansion>& stacktrace) {
+//	std::cout << "\tNext step" << std::endl;
+//	std::cout << "Stack: " << concatExpansion(stack) << std::endl;
+//	std::cout << "Derivation: " << concatExpansion(derivation) << std::endl;
+
+	while (!derivation.empty() && isTerminatingSymbol(derivation[0])) {
+//		printf("Comparing '%s' > '%s'\n", stack[0].c_str(), derivation[0].c_str());
+		if (stack[0] != derivation[0]) {
+//			std::cout << "Branch failed, backtracking" << std::endl;
+			return false;
+		}
+
+		stack.erase(stack.begin());
+		derivation.erase(derivation.begin());
+	}
+	if (derivation.empty()) {
+		return stack.empty();
+	}
+//	std::cout << "Pruned Stack: " << concatExpansion(stack) << std::endl;
+//	std::cout << "Pruned Derivation: " << concatExpansion(derivation) << std::endl;
+
+//	std::cout << "\tChecking possibilites" << std::endl;
+	std::string current = derivation[0];
+	derivation.erase(derivation.begin());
+	for (auto &expansion : expansions[current]) {
+		if (derivation.size() + expansion.symbols.size() > stack.size()) {
+//			std::cout << "\nSkipping possibility (Too long): " << concatExpansion(expansion) << std::endl;
+			continue;
+		}
+//		std::cout << "\nTesting possibility: " << concatExpansion(expansion) << std::endl;
+		for (int s = 0; s < expansion.symbols.size(); s++)
+			derivation.insert(derivation.begin() + s, expansion.symbols[s]);
+		bool res = validateStep(stack, derivation, stacktrace);
+		if (res) {
+			stacktrace.push_back(expansion);
+			return true;
+		}
+		for (int s = 0; s < expansion.symbols.size(); s++)
+			derivation.erase(derivation.begin());
+	}
+
+	return false;
 }
 
-void CFG::addExpansion(const std::string& parent, const std::string& expansion) {
-	expansions[parent].emplace_back(expansion);
+void CFG::addExpansion(const std::string &parent, const std::string &expansion) {
+	expansions[parent].emplace_back(parent, expansion);
 }

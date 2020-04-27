@@ -1,6 +1,23 @@
-E
+Expr
 
-E:
-| num + num
-| num * num
+Expr:
+| (Expr)
+| Sum
+| Prod
+
+Sum:
+| num + Expr
 | num
+
+Prod:
+| num * Expr
+| num
+#E
+#
+#E:
+#| N + E
+#| N * E
+#| N
+#
+#N:
+#| num

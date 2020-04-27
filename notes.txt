@@ -1,0 +1,32 @@
+| E                                         |
+| S                                         |
+| num | + | E                               |
+          | P                               |
+          | num | * | E                     |
+                    | ( | E             | ) |
+                        | S             |
+                        | num | + | E   |
+                                  | num |
+| num | + | num | * | ( | num | + | num | ) |
+  num   +   num   *   (   num   +   num   )
+
+           num + num * (num + num)
+
+            +
+         /    \
+       num      *
+              /   \
+            num    +
+                 /   \
+               num   num
+
+|                       Expr                       |
+|                       Sum                        |
+| num  | + |                 Expr                  |
+| num  | + |                 Prod                  |
+| num  | + | num  | * |            Expr            |
+| num  | + | num  | * |  (   |      Expr       | ) |
+| num  | + | num  | * |  (   |       Sum       | ) |
+| num  | + | num  | * |  (   | num  | + | Expr | ) |
+| num  | + | num  | * |  (   | num  | + | Sum  | ) |
+| num  | + | num  | * |  (   | num  | + | num  | ) |
