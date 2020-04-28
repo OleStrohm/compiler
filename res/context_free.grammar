@@ -2,8 +2,11 @@ Statement
 
 Statement:
 | Expr;
-| if (Expr) { StatementList }
+| IfStatement
 | Assignment
+
+IfStatement:
+| if (Expr) { StatementList }
 
 Assignment:
 | id = Expr;

@@ -193,7 +193,7 @@ AST *AST::generateAST(CFGTree *parseTree) {
 
 	if (numChildren == 0) {
 		node = new Atom(symbol, symbol != "id");
-	} else if (children[0]->getSymbol() == "if") {
+	} else if (symbol == "IfStatement") {
 		auto condition = children[2];
 		auto then = children[5];
 		node = new IfStatement(generateAST(condition),

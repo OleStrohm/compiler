@@ -30,7 +30,7 @@ int main() {
 #endif
 
 #if TEST_SYNTAXIZER
-	std::string source = "if(id - num) { id = num + id * num; id = num / num; id = id - num; }";
+	std::string source = "if(id - num) { id = num; }";
 //	std::string source = "id = (num + id) * num;";
 
 	CFG grammar("context_free.grammar");
