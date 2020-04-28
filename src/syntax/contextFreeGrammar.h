@@ -16,22 +16,23 @@ private:
 	std::map<std::string, std::vector<Expansion>> expansions;
 	std::vector<std::string> nonTerminatingSymbols;
 
-	inline bool isTerminatingSymbol(const std::string& s) {
-		for(int i = 0; i < nonTerminatingSymbols.size(); i++) { // TODO: Binary search on a ordered list
-			if(nonTerminatingSymbols[i] == s)
+	inline bool isTerminatingSymbol(const std::string &s) {
+		for (int i = 0; i < nonTerminatingSymbols.size(); i++) { // TODO: Binary search on a ordered list
+			if (nonTerminatingSymbols[i] == s)
 				return false;
 		}
 		return true;
 	}
 
-	void addExpansion(const std::string& parent, const std::string& expansion);
+	void addExpansion(const std::string &parent, const std::string &expansion);
 
 	bool validateStep(std::vector<std::string> stack, std::vector<std::string> derivation,
-					  std::vector<Expansion>& stacktrace);
-public:
-	explicit CFG(const std::string& filepath);
+					  std::vector<Expansion> &stacktrace);
 
-	bool validate(const std::string& in, std::vector<Expansion>& stacktrace);
+public:
+	explicit CFG(const std::string &filepath);
+
+	bool validate(const std::string &in, std::vector<Expansion> &stacktrace);
 };
 
 

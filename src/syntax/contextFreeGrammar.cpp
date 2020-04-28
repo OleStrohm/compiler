@@ -49,16 +49,16 @@ CFG::CFG(const std::string &filepath) {
 
 }
 
-bool CFG::validate(const std::string &in, std::vector<Expansion>& stacktrace) {
+bool CFG::validate(const std::string &in, std::vector<Expansion> &stacktrace) {
 	Expansion stack(start, in);
 	std::vector<std::string> derivation;
 	derivation.push_back(start);
-	std::cout << std::endl << "Validating: '" << in << "'" << std::endl;
+	std::cout << std::endl << "Validating: '" << concatExpansion(stack.symbols) << "'" << std::endl;
 	return validateStep(stack.symbols, derivation, stacktrace);
 }
 
 bool CFG::validateStep(std::vector<std::string> stack, std::vector<std::string> derivation,
-					   std::vector<Expansion>& stacktrace) {
+					   std::vector<Expansion> &stacktrace) {
 //	std::cout << "\tNext step" << std::endl;
 //	std::cout << "Stack: " << concatExpansion(stack) << std::endl;
 //	std::cout << "Derivation: " << concatExpansion(derivation) << std::endl;

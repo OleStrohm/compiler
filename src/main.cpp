@@ -4,6 +4,7 @@
 #include "syntax/contextFreeGrammar.h"
 #include "util/util.h"
 #include "syntax/CFGTree.h"
+#include "syntax/ast.h"
 
 std::string visualizeWhitespaceAndFormat(const std::string &s);
 
@@ -13,7 +14,7 @@ std::string visualizeWhitespaceAndFormat(const std::string &s);
 int main() {
 #if TEST_TOKENIZER
 	std::string text = "float x = -.5f;\n"
-	                   "string potato = getPotato(2);";
+					   "string potato = getPotato(2);";
 	std::cout << std::endl;
 	std::cout << text << std::endl;
 	std::cout << std::endl;
@@ -29,16 +30,19 @@ int main() {
 #endif
 
 #if TEST_SYNTAXIZER
+	std::string source = "if(id - num) { id = num + id * num; id = num / num; id = id - num; }";
+//	std::string source = "id = (num + id) * num;";
+
 	CFG grammar("context_free.grammar");
-	
 	std::vector<Expansion> stacktrace;
-//	bool res = grammar.validate("num + num * num", stacktrace);
-	bool res = grammar.validate("num + num * (num + num)", stacktrace);
+	bool res = grammar.validate(source, stacktrace);
 	std::cout << "Validation: " << (res ? "PASSED" : "FAILED") << std::endl;
 
-	std::vector<Expansion> stacktrace_rev = util::reverse<Expansion>(stacktrace);
+	if(!res)
+		return 0;
 
-	if(!stacktrace_rev.empty()) {
+	std::vector<Expansion> stacktrace_rev = util::reverse<Expansion>(stacktrace);
+	if (!stacktrace_rev.empty()) {
 		std::cout << "Stack trace:" << std::endl;
 		for (auto &e : stacktrace_rev) {
 			std::cout << "\t" << e << std::endl;
@@ -46,9 +50,18 @@ int main() {
 	}
 
 	std::cout << std::endl << "CFG parse tree:" << std::endl;
-	CFGTree* tree = CFGTree::generateTree(stacktrace_rev);
-	TreeDisplayer display = tree->printTree();
+	CFGTree *parseTree = CFGTree::generateTree(stacktrace_rev);
+	TreeDisplay display = parseTree->printTree();
 	display.show();
+
+	AST *ast = AST::generateAST(parseTree);
+	std::cout << std::endl << "AST:" << std::endl;
+	ast->printTree().show();
+	std::cout << std::endl;
+
+	std::cout << "\tSource code: '" << source << "'" << std::endl;
+	std::cout << "Compiled code:" << std::endl;
+	std::cout << ast->code() << std::endl;
 
 #endif
 

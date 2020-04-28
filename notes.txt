@@ -1,32 +1,17 @@
-| E                                         |
-| S                                         |
-| num | + | E                               |
-          | P                               |
-          | num | * | E                     |
-                    | ( | E             | ) |
-                        | S             |
-                        | num | + | E   |
-                                  | num |
-| num | + | num | * | ( | num | + | num | ) |
-  num   +   num   *   (   num   +   num   )
+CFG parse tree:
+|                +               |
+|     *    |          +          |
+| num | id |     *    |     *    |
+           | num | id | num | id |
 
-           num + num * (num + num)
-
-            +
-         /    \
-       num      *
-              /   \
-            num    +
-                 /   \
-               num   num
-
-|                       Expr                       |
-|                       Sum                        |
-| num  | + |                 Expr                  |
-| num  | + |                 Prod                  |
-| num  | + | num  | * |            Expr            |
-| num  | + | num  | * |  (   |      Expr       | ) |
-| num  | + | num  | * |  (   |       Sum       | ) |
-| num  | + | num  | * |  (   | num  | + | Expr | ) |
-| num  | + | num  | * |  (   | num  | + | Sum  | ) |
-| num  | + | num  | * |  (   | num  | + | num  | ) |
+Expansions:
+    Expr => ( Expr )
+    Expr => Sum
+    Sum => Term + Sum
+    Sum => Term
+    Term => Factor * Term
+    Term => Factor
+    Factor => ( Expr )
+    Factor => El
+    El => num
+    El => id

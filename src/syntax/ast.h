@@ -5,15 +5,16 @@
 #pragma once
 
 #include <vector>
+#include "CFGTree.h"
+#include "treedisplay.h"
 
 class AST {
-private:
-	std::vector<AST*> children;
-
 protected:
-	virtual void printNode(int offset) = 0;
+	virtual void printNode(TreeDisplay& display, int x, int y) = 0;
 public:
-	void attachChild(AST* child);
+	virtual std::string code() = 0;
+	virtual void printTree(TreeDisplay &display, int &x, int &y) = 0;
+	TreeDisplay printTree();
 
-	void printTree(int offset = 0);
+	static AST* generateAST(CFGTree* parseTree);
 };

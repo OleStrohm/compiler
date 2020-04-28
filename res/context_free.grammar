@@ -1,23 +1,35 @@
-Expr
+Statement
+
+Statement:
+| Expr;
+| if (Expr) { StatementList }
+| Assignment
+
+Assignment:
+| id = Expr;
+
+StatementList:
+| Statement StatementList
+| Statement
 
 Expr:
 | (Expr)
 | Sum
-| Prod
 
 Sum:
-| num + Expr
-| num
+| Term + Sum
+| Term - Sum
+| Term
 
-Prod:
-| num * Expr
+Term:
+| Factor * Term
+| Factor / Term
+| Factor
+
+Factor:
+| (Expr)
+| El
+
+El:
 | num
-#E
-#
-#E:
-#| N + E
-#| N * E
-#| N
-#
-#N:
-#| num
+| id
