@@ -1,17 +1,22 @@
-CFG parse tree:
-|                +               |
-|     *    |          +          |
-| num | id |     *    |     *    |
-           | num | id | num | id |
+AST:
+|           if           | 
+|    -     |    Block    | 
+| id | num |      =      | 
+|          |  id   | num | 
 
-Expansions:
-    Expr => ( Expr )
-    Expr => Sum
-    Sum => Term + Sum
-    Sum => Term
-    Term => Factor * Term
-    Term => Factor
-    Factor => ( Expr )
-    Factor => El
-    El => num
-    El => id
+	Source code: 'if(id - num) { id = num; }'
+Compiled code:
+if ((id - num)) {
+id = num;
+}
+
+
+Attempt at creating a syntax:
+
+If:
+| if (Expr) { Assignment } {{ $$=($2 $5) $="if" $<"if ($2) { $5 }"}}
+
+Expr:
+| id op num {{$$=($0 $2) $=$1 $<"($0 $1 $2)"}}
+| num op id {{ $<"($0 $1 $2)" }}
+| num op num {{"($0 $1 ($2))"}}

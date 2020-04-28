@@ -1,0 +1,16 @@
+Tokenizer:
+    Tokenize incoming data and annotate tokens
+        Feed tokens forward to CFG and AST
+
+CFG:
+    Use proper operators
+        Merge assignment and binary operators
+    Create unary operators
+    Substitute id and num back to the corresponding values
+
+AST:
+    Atom
+        Use id and num as inputs to 'literal',
+         and child node as value
+    Make grammar (partially) responsible for which indexes are used
+     as children to the node (maybe also compilation rules)
